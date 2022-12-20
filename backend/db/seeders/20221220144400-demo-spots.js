@@ -22,7 +22,7 @@ module.exports = {
         lat: 34.076691,
         lng: -118.242766,
         name: "The cat house",
-        descript: "coziest house youll ever stay in ",
+        description: "coziest house youll ever stay in ",
         price: 125,
       },
       {
@@ -34,7 +34,7 @@ module.exports = {
         lat: 34.053691,
         lng: -118.242846,
         name: "house of coziness",
-        descript: "coziest house youll ever stay in ",
+        description: "coziest house youll ever stay in ",
         price: 236,
       },
       {
@@ -46,7 +46,7 @@ module.exports = {
         lat: 65.053691,
         lng: -118.242766,
         name: "Summer time vibes",
-        descript: "coziest house youll ever stay in ",
+        description: "coziest house youll ever stay in ",
         price: 473,
       },
       {
@@ -58,7 +58,7 @@ module.exports = {
         lat: 34.053691,
         lng: -108.242766,
         name: "winter wonderland",
-        descript: "coziest house youll ever stay in ",
+        description: "coziest house youll ever stay in ",
         price: 688,
       },
       {
@@ -70,7 +70,7 @@ module.exports = {
         lat: 34.0536571,
         lng: -118.242986,
         name: "Fall vibes",
-        descript: "coziest house youll ever stay in ",
+        description: "coziest house youll ever stay in ",
         price: 199,
       },
     ]);

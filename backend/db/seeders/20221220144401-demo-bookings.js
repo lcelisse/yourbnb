@@ -41,7 +41,7 @@ module.exports = {
           endDate: "2022-03-27",
         },
       ],
-     
+
     );
   },
 
@@ -53,7 +53,7 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
     await queryInterface.bulkDelete("Bookings", {
-      userId: { [Op.in]: [1, 2, 3, 4] },
+      userId: { [Op.in]: [1, 2, 3, 5] },
     });
   },
 };

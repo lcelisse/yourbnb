@@ -7,8 +7,10 @@ const { User } = require("../../db/models");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
-  const { email, password, username } = req.body;
+  const { firstName, lastName, email, password, username } = req.body;
   const user = await User.signup({
+    firstName,
+    lastName,
     email,
     username,
     password,
@@ -36,12 +38,20 @@ const validateSignup = [
     .isLength({ min: 6 })
     .withMessage("Password must be 6 characters or more."),
 
+  check("lastName")
+    .exists({ checkFalsy: true })
+    .withMessage("Please provide a first name"),
+  check("firstName")
+    .exists({ checkFalsy: true })
+    .withMessage("Please provide a last name"),
   handleValidationErrors,
 ];
 
 router.post("/", validateSignup, async (req, res) => {
-  const { email, password, username } = req.body;
+  const { firstName, lastName, email, password, username } = req.body;
   const user = await User.signup({
+    firstName,
+    lastName,
     email,
     username,
     password,

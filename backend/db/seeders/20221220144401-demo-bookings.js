@@ -1,5 +1,6 @@
 "use strict";
 
+const { Op } = require("sequelize");
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -40,7 +41,7 @@ module.exports = {
           endDate: "2022-03-27",
         },
       ],
-      {}
+     
     );
   },
 
@@ -51,6 +52,8 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete("Bookings");
+    await queryInterface.bulkDelete("Bookings", {
+      userId: { [Op.in]: [1, 2, 3, 4] },
+    });
   },
 };

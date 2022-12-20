@@ -1,5 +1,5 @@
 "use strict";
-
+const { Op } = require("sequelize");
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -12,28 +12,24 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await queryInterface.bulkInsert(
-      "ReviewImages",
-      [
-        {
-          reviewId: 1,
-          url: "insert soon",
-        },
-        {
-          reviewId: 2,
-          url: "insert soon",
-        },
-        {
-          reviewId: 3,
-          url: "insert soon",
-        },
-        {
-          reviewId: 4,
-          url: "insert soon",
-        },
-      ],
-      {}
-    );
+    await queryInterface.bulkInsert("ReviewImages", [
+      {
+        reviewId: 1,
+        url: "insert soon",
+      },
+      {
+        reviewId: 2,
+        url: "insert soon",
+      },
+      {
+        reviewId: 3,
+        url: "insert soon",
+      },
+      {
+        reviewId: 4,
+        url: "insert soon",
+      },
+    ]);
   },
 
   async down(queryInterface, Sequelize) {
@@ -43,6 +39,8 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete("ReviewImages");
+    await queryInterface.bulkDelete("ReviewImages", {
+      reviewId: { [Op.in]: [1, 2, 3, 4] },
+    });
   },
 };

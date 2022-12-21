@@ -3,15 +3,7 @@ const router = express.Router();
 const { requireAuth } = require("../../utils/auth");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
-const {
-  Spot,
-  Review,
-  SpotImage,
-  User,
-  ReviewImage,
-  Booking,
-  Sequelize,
-} = require("../../db/models");
+const { Spot, Review, SpotImage, User, Sequelize } = require("../../db/models");
 
 const validateCreatedSpot = [
   check("address")

@@ -9,7 +9,9 @@ const {
   User,
   ReviewImage,
   Booking,
+  Sequelize,
 } = require("../../db/models");
+const spot = require("../../db/models/spot");
 
 //Get all spots
 
@@ -17,7 +19,31 @@ router.get("/", async (req, res) => {
   //spots
   const spots = await Spot.findAll();
 
-  return res.json({ Spots: spots });
+  const spotsList = [];
+  // get avg ratings
+  for (let spot of spots) {
+    const review = await Review.findAll({
+      where: {
+        spotId: spot.id,
+      },
+      attributes: [[Sequelize.fn("AVG", Sequelize.col("stars")), "avgRating"]],
+      raw: true,
+    });
+
+    //include preview image
+    const previewImg = await SpotImage.findOne({
+      where: { preview: true, spotId: spot.id },
+    });
+
+    let spotList = {
+      ...spot.dataValues,
+      avgRating: Number(review[0].avgRating),
+      previewImage: previewImg.url,
+    };
+    spotsList.push(spotList);
+  }
+
+  return res.json({ Spots: spotsList });
 });
 
 module.exports = router;

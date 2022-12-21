@@ -3,7 +3,15 @@ const router = express.Router();
 const { requireAuth } = require("../../utils/auth");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
-const { Spot, Review, SpotImage, User, Sequelize } = require("../../db/models");
+const {
+  Spot,
+  Review,
+  SpotImage,
+  User,
+  ReviewImage,
+  Booking,
+  Sequelize,
+} = require("../../db/models");
 
 const validateCreatedSpot = [
   check("address")
@@ -243,4 +251,64 @@ router.delete("/:spotId", requireAuth, async (req, res) => {
     .statusCode(200);
 });
 
+//Get reviews by spot Id
+
+router.get("/:spotId/reviews", async (req, res) => {
+  const spot = await Spot.findByPk(req.params.spotId);
+
+  if (!spot) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    return next(err);
+  }
+
+  const reviews = await Review.findAll({
+    where: {
+      spotId: req.params.spotId,
+    },
+    include: [
+      {
+        model: User,
+        attributes: ["id", "firstName", "lastName"],
+      },
+      {
+        model: ReviewImage,
+        attributes: ["id", "url"],
+      },
+    ],
+  });
+  res.json({ Reviews: reviews });
+});
+
+router.get("/:spotId/bookings", requireAuth, async (req, res) => {
+  const spot = await Spot.findByPk(req.params.spotId);
+
+  if (!spot) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    return next(err);
+  }
+
+  if (spot.ownerId !== req.user.id) {
+    const bookings = await Booking.findAll({
+      where: { spotId: req.params.spotId },
+      attributes: ["spotId", "startDate", "endDate"],
+    });
+    res.json({ Booking: bookings });
+  } else {
+    const bookings = await Booking.findAll({
+        //fix ordering
+      include: [
+        {
+          model: User,
+          attributes: ["id", "firstName", "lastName"],
+        },
+      ],
+      where: {
+        spotId: req.params.spotId,
+      },
+    });
+    res.json({ Booking: bookings });
+  }
+});
 module.exports = router;

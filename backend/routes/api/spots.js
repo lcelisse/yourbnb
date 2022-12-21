@@ -12,7 +12,6 @@ const {
   Booking,
   Sequelize,
 } = require("../../db/models");
-const spot = require("../../db/models/spot");
 
 const validateCreatedSpot = [
   check("address")
@@ -62,11 +61,13 @@ router.get("/", async (req, res) => {
     //include preview image
     const previewImg = await SpotImage.findOne({
       where: { preview: true, spotId: spot.id },
+      raw: true,
     });
 
     let spotList = {
       ...spot.dataValues,
       avgRating: Number(review[0].avgRating),
+      //fix url error where null = preview image
       previewImage: previewImg.url,
     };
     spotsList.push(spotList);
@@ -231,4 +232,23 @@ router.put("/:spotId", requireAuth, validateCreatedSpot, async (req, res) => {
   await edited.save();
   return res.json(edited);
 });
+
+//Delete a spot
+router.delete("/:spotId", requireAuth, async (req, res) => {
+  const deletedSpot = await Spot.findByPk(req.params.spotId);
+  if (!deletedSpot) {
+    res
+      .json({ message: "Spot couldn't be found", statusCode: 404 })
+      .status(404);
+  }
+
+  deletedSpot.destroy();
+  return res
+    .json({
+      message: "Successfully deleted",
+      statusCode: 200,
+    })
+    .statusCode(200);
+});
+
 module.exports = router;

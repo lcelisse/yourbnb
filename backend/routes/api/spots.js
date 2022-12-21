@@ -210,4 +210,25 @@ router.post("/:spotId/images", requireAuth, async (req, res, next) => {
   res.json({ id: newImg.id, url: newImg.url, preview: newImg.preview });
 });
 
+//Edit a Spot
+router.put("/:spotId", requireAuth, validateCreatedSpot, async (req, res) => {
+  const { address, city, state, country, lat, lng, name, description, price } =
+    req.body;
+
+  const edited = await Spot.findByPk(req.params.spotId);
+
+  edited.set({
+    address,
+    city,
+    state,
+    country,
+    lat,
+    lng,
+    name,
+    description,
+    price,
+  });
+  await edited.save();
+  return res.json(edited);
+});
 module.exports = router;

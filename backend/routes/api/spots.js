@@ -297,7 +297,7 @@ router.get("/:spotId/bookings", requireAuth, async (req, res) => {
     res.json({ Booking: bookings });
   } else {
     const bookings = await Booking.findAll({
-        //fix ordering
+      //fix ordering
       include: [
         {
           model: User,
@@ -311,4 +311,66 @@ router.get("/:spotId/bookings", requireAuth, async (req, res) => {
     res.json({ Booking: bookings });
   }
 });
+
+//create a booking from a spot based on spot id
+router.post("/:spotId/bookings", async (req, res, next) => {
+  const { startDate, endDate } = req.body;
+  const spot = await Spot.findByPk(req.params.spotId);
+  if (!spot) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    return next(err);
+  }
+
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+
+  //if the endate is before the starting date
+  if (end <= start) {
+    return res
+      .json({
+        message: "endDate cannot be on or before startDate",
+      })
+      .status(400);
+  }
+
+  //if the dates are already booked
+  const bookings = await Booking.findAll({
+    where: {
+      spotId: req.params.spotId,
+    },
+    raw: true,
+  });
+  for (let booking of bookings) {
+    let { startDate, endDate } = booking;
+    startDate = new Date(startDate);
+    endDate = new Date(endDate);
+
+    if (start >= startDate && start <= endDate) {
+      const err = new Error(
+        "Sorry, this spot is already booked for the specified dates"
+      );
+      err.status = 403;
+      err.errors = ["Start date conflicts with an existing booking"];
+      return next(err);
+    }
+    if (end >= startDate && end <= endDate) {
+      const err = new Error(
+        "Sorry, this spot is already booked for the specified dates"
+      );
+      err.status = 403;
+      err.errors = ["Start date conflicts with an existing booking"];
+      return next(err);
+    }
+  }
+
+  const newBooking = await Booking.create({
+    spotId: req.params.spotId,
+    userId: req.user.id,
+    startDate: startDate,
+    endDate: endDate,
+  });
+  res.json(newBooking);
+});
+
 module.exports = router;

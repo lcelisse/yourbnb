@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { requireAuth } = require("../../utils/auth");
+const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 const {
   Spot,
@@ -12,6 +13,34 @@ const {
   Sequelize,
 } = require("../../db/models");
 const spot = require("../../db/models/spot");
+
+const validateCreatedSpot = [
+  check("address")
+    .exists({ checkFalsy: true })
+    .withMessage("Street address is required"),
+  check("city").exists({ checkFalsy: true }).withMessage("City is required"),
+  check("state").exists({ checkFalsy: true }).withMessage("State is required"),
+  check("country")
+    .exists({ checkFalsy: true })
+    .withMessage("Country is required"),
+  check("lat")
+    .exists({ checkFalsy: true })
+    .withMessage("Latitude is not valid"),
+  check("lng")
+    .exists({ checkFalsy: true })
+    .withMessage("Longitude is not valid"),
+  check("name")
+    .exists({ checkFalsy: true })
+    .isLength({ max: 49 })
+    .withMessage("Name must be less than 50 characters"),
+  check("description")
+    .exists({ checkFalsy: true })
+    .withMessage("Description is required"),
+  check("price")
+    .exists({ checkFalsy: true })
+    .withMessage("Price per day is required"),
+  handleValidationErrors,
+];
 
 //Get all spots
 
@@ -133,5 +162,32 @@ router.get("/:spotId", async (req, res, next) => {
   spot.Owner = owner;
 
   res.json(spot);
+});
+
+//Create Spot
+
+router.post("/", requireAuth, validateCreatedSpot, async (req, res) => {
+  const { address, city, state, country, lat, lng, name, description, price } =
+    req.body;
+
+  const user = await User.findOne({
+    where: {
+      id: req.user.id,
+    },
+  });
+
+  const newSpot = await Spot.create({
+    ownerId: user.id,
+    address: address,
+    city: city,
+    state: state,
+    country: country,
+    lat: lat,
+    lng: lng,
+    name: name,
+    description: description,
+    price: price,
+  });
+  res.json(newSpot);
 });
 module.exports = router;

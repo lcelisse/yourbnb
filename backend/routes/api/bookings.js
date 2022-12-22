@@ -75,7 +75,7 @@ router.put("/:bookingId", async (req, res, next) => {
 
   const bookings = await Booking.findAll({
     where: {
-      spotId: req.params.spotId,
+      spotId: booking.spotId,
     },
     raw: true,
   });

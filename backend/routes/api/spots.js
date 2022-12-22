@@ -12,6 +12,15 @@ const {
   Booking,
   Sequelize,
 } = require("../../db/models");
+const validateReviews = [
+  check("stars")
+    .exists({ checkFalsy: true })
+    .withMessage("Stars must be an integer from 1 to 5"),
+  check("review")
+    .exists({ checkFalsy: true })
+    .withMessage("Review text is required"),
+  handleValidationErrors,
+];
 
 const validateCreatedSpot = [
   check("address")
@@ -217,7 +226,11 @@ router.put("/:spotId", requireAuth, validateCreatedSpot, async (req, res) => {
     req.body;
 
   const edited = await Spot.findByPk(req.params.spotId);
-
+  if (!edited) {
+    res
+      .json({ message: "Spot couldn't be found", statusCode: 404 })
+      .status(404);
+  }
   edited.set({
     address,
     city,
@@ -280,6 +293,47 @@ router.get("/:spotId/reviews", async (req, res) => {
   res.json({ Reviews: reviews });
 });
 
+//create a review for a spot based on the spots id
+router.post(
+  "/:spotId/reviews",
+  requireAuth,
+  validateReviews,
+  async (req, res, next) => {
+    const spot = await Spot.findByPk(req.params.spotId);
+    const { review, stars } = req.body;
+
+    if (!spot) {
+      const err = new Error("Spot couldn't be found");
+      err.status = 404;
+      return next(err);
+    }
+
+    const reviews = await Review.findAll({
+      where: {
+        spotId: req.params.spotId,
+      },
+      raw: true,
+    });
+
+    for (let review of reviews) {
+      if (review.userId === req.user.id) {
+        const err = new Error("User already has a review for this spot");
+        err.status = 403;
+        return next(err);
+      }
+    }
+
+    const newReview = await Review.create({
+      userId: req.user.id,
+      spotId: req.params.spotId,
+      review: review,
+      stars: stars,
+    });
+    res.json(newReview);
+  }
+);
+
+//bookings by spot id
 router.get("/:spotId/bookings", requireAuth, async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId);
 

@@ -196,7 +196,7 @@ router.get("/", async (req, res, next) => {
 
 //all spots of current owner
 
-router.get("/current", async (req, res) => {
+router.get("/current", requireAuth, async (req, res) => {
   const spots = await Spot.findAll({
     where: {
       ownerId: req.user.id,
@@ -239,8 +239,10 @@ router.get("/:spotId", async (req, res, next) => {
   });
 
   if (!spot) {
-    const err = new Error("Spot couldn't be found");
+    const err = new Error();
+    err.title = "Not found";
     err.status = 404;
+    err.message = [{ message: "Spot couldn't be found", statusCode: 404 }];
     return next(err);
   }
   // number of reviews and average of stars
@@ -316,8 +318,10 @@ router.post("/:spotId/images", requireAuth, async (req, res, next) => {
   const { url, preview } = req.body;
 
   if (!spot) {
-    const err = new Error("Spot couldn't be found");
+    const err = new Error();
+    err.title = "Not found";
     err.status = 404;
+    err.message = [{ message: "Spot couldn't be found", statusCode: 404 }];
     return next(err);
   }
 
@@ -356,12 +360,14 @@ router.put("/:spotId", requireAuth, validateCreatedSpot, async (req, res) => {
 });
 
 //Delete a spot
-router.delete("/:spotId", requireAuth, async (req, res) => {
+router.delete("/:spotId", requireAuth, async (req, res, next) => {
   const deletedSpot = await Spot.findByPk(req.params.spotId);
   if (!deletedSpot) {
-    res
-      .json({ message: "Spot couldn't be found", statusCode: 404 })
-      .status(404);
+    const err = new Error();
+    err.title = "Not found";
+    err.status = 404;
+    err.message = [{ message: "Spot couldn't be found", statusCode: 404 }];
+    return next(err);
   }
 
   deletedSpot.destroy();
@@ -375,12 +381,14 @@ router.delete("/:spotId", requireAuth, async (req, res) => {
 
 //Get reviews by spot Id
 
-router.get("/:spotId/reviews", async (req, res) => {
+router.get("/:spotId/reviews", async (req, res, next) => {
   const spot = await Spot.findByPk(req.params.spotId);
 
   if (!spot) {
-    const err = new Error("Spot couldn't be found");
+    const err = new Error();
+    err.title = "Not found";
     err.status = 404;
+    err.message = [{ message: "Spot couldn't be found", statusCode: 404 }];
     return next(err);
   }
 
@@ -412,8 +420,10 @@ router.post(
     const { review, stars } = req.body;
 
     if (!spot) {
-      const err = new Error("Spot couldn't be found");
+      const err = new Error();
+      err.title = "Not found";
       err.status = 404;
+      err.message = [{ message: "Spot couldn't be found", statusCode: 404 }];
       return next(err);
     }
 
@@ -443,15 +453,16 @@ router.post(
 );
 
 //bookings by spot id
-router.get("/:spotId/bookings", requireAuth, async (req, res) => {
+router.get("/:spotId/bookings", requireAuth, async (req, res, next) => {
   const spot = await Spot.findByPk(req.params.spotId);
 
   if (!spot) {
-    const err = new Error("Spot couldn't be found");
+    const err = new Error();
+    err.title = "Not found";
     err.status = 404;
+    err.message = [{ message: "Spot couldn't be found", statusCode: 404 }];
     return next(err);
   }
-
   if (spot.ownerId !== req.user.id) {
     const bookings = await Booking.findAll({
       where: { spotId: req.params.spotId },
@@ -476,7 +487,7 @@ router.get("/:spotId/bookings", requireAuth, async (req, res) => {
 });
 
 //create a booking from a spot based on spot id
-router.post("/:spotId/bookings", async (req, res, next) => {
+router.post("/:spotId/bookings", requireAuth, async (req, res, next) => {
   const { startDate, endDate } = req.body;
   const spot = await Spot.findByPk(req.params.spotId);
   if (!spot) {

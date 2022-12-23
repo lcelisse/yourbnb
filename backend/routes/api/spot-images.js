@@ -2,15 +2,16 @@ const express = require("express");
 const { SpotImage } = require("../../db/models");
 const router = express.Router();
 
-router.delete("/:imageId", async (req, res) => {
+router.delete("/:imageId", async (req, res, next) => {
   const img = await SpotImage.findByPk(req.params.imageId);
   if (!img) {
-    return res
-      .json({
-        message: "Spot Image couldn't be found",
-        statusCode: 404,
-      })
-      .status(404);
+    const err = new Error();
+    err.title = "Not found";
+    err.status = 404;
+    err.message = [
+      { message: "Spot Image couldn't be found", statusCode: 404 },
+    ];
+    return next(err);
   }
 
   await img.destroy();

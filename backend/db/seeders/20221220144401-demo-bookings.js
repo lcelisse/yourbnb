@@ -13,26 +13,30 @@ module.exports = {
       options,
       [
         {
-          spotId: 1,
           userId: 1,
+          spotId: 1,
+
           startDate: "2022-03-22",
           endDate: "2022-03-27",
         },
         {
-          spotId: 3,
           userId: 3,
+          spotId: 3,
+
           startDate: "2022-04-22",
           endDate: "2022-04-27",
         },
         {
-          spotId: 4,
           userId: 5,
+          spotId: 4,
+
           startDate: "2022-05-22",
           endDate: "2022-05-27",
         },
         {
-          spotId: 1,
           userId: 2,
+          spotId: 1,
+
           startDate: "2022-06-22",
           endDate: "2022-06-27",
         },

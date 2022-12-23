@@ -105,8 +105,10 @@ router.put("/:reviewId", requireAuth, validateReviews, async (req, res) => {
 router.delete("/:reviewId", requireAuth, async (req, res, next) => {
   const review = await Review.findByPk(req.params.reviewId);
   if (!review) {
-    const err = new Error("Review couldn't be found");
+    const err = new Error();
+    err.title = "Not found";
     err.status = 404;
+    err.message = [{ message: "Review couldn't be found", statusCode: 404 }];
     return next(err);
   }
   review.destroy();
@@ -124,8 +126,10 @@ router.post("/:reviewId/images", async (req, res, next) => {
   const review = await Review.findByPk(req.params.reviewId);
 
   if (!review) {
-    const err = new Error("Review couldn't be found");
+    const err = new Error();
+    err.title = "Not found";
     err.status = 404;
+    err.message = [{ message: "Review couldn't be found", statusCode: 404 }];
     return next(err);
   }
   const reviewImg = await ReviewImage.findAll({

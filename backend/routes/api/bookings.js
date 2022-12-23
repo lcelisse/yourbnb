@@ -7,7 +7,7 @@ const { Spot, SpotImage, Booking, Sequelize } = require("../../db/models");
 
 //Get all of the Current User's Bookings
 
-router.get("/current", async (req, res) => {
+router.get("/current", requireAuth, async (req, res) => {
   const bookings = await Booking.findAll({
     where: {
       userId: req.user.id,
@@ -51,7 +51,7 @@ router.get("/current", async (req, res) => {
 });
 
 //edit a booking
-router.put("/:bookingId", async (req, res, next) => {
+router.put("/:bookingId", requireAuth, async (req, res, next) => {
   const { startDate, endDate } = req.body;
   const booking = await Booking.findByPk(req.params.bookingId);
 
@@ -59,18 +59,24 @@ router.put("/:bookingId", async (req, res, next) => {
   const end = new Date(endDate);
 
   if (!booking) {
-    const err = new Error("Booking couldn't be found");
+    const err = new Error();
+    err.title = "Not found";
     err.status = 404;
+    err.message = [{ message: "Booking couldn't be found", statusCode: 404 }];
     return next(err);
   }
 
   //if the endate is before the starting date
   if (end <= start) {
-    return res
-      .json({
-        message: "endDate cannot be on or before startDate",
-      })
-      .status(400);
+    const err = new Error();
+    err.title = "Validation error";
+    err.status = 400;
+    err.message = "Validation error";
+    err.errors = {
+      endDate: "endDate cannot come before startDate",
+      statusCode: 400,
+    };
+    return next(err);
   }
 
   const bookings = await Booking.findAll({
@@ -85,19 +91,28 @@ router.put("/:bookingId", async (req, res, next) => {
     endDate = new Date(endDate);
 
     if (start >= startDate && start <= endDate) {
-      const err = new Error(
-        "Sorry, this spot is already booked for the specified dates"
-      );
+      const err = new Error();
+      err.title = "Booking Error";
       err.status = 403;
-      err.errors = ["Start date conflicts with an existing booking"];
+      err.message =
+        "Sorry, this spot is already booked for the specified dates";
+      err.errors = {
+        startDate: "Start date conflicts with an existing booking",
+        statusCode: 403,
+      };
+
       return next(err);
     }
     if (end >= startDate && end <= endDate) {
-      const err = new Error(
-        "Sorry, this spot is already booked for the specified dates"
-      );
+      const err = new Error();
+      err.title = "Booking Error";
       err.status = 403;
-      err.errors = ["Start date conflicts with an existing booking"];
+      err.message =
+        "Sorry, this spot is already booked for the specified dates";
+      err.errors = {
+        endDate: "End date conflicts with an existing booking",
+        statusCode: 403,
+      };
       return next(err);
     }
   }
@@ -113,16 +128,15 @@ router.put("/:bookingId", async (req, res, next) => {
 });
 
 //delete a booking
-router.delete("/:bookingId", async (req, res) => {
+router.delete("/:bookingId", requireAuth, async (req, res, next) => {
   const booking = await Booking.findByPk(req.params.bookingId);
 
   if (!booking) {
-    return res
-      .json({
-        message: "Booking couldn't be found",
-        statusCode: 404,
-      })
-      .status(404);
+    const err = new Error();
+    err.title = "Not found";
+    err.status = 404;
+    err.message = [{ message: "Booking couldn't be found", statusCode: 404 }];
+    return next(err);
   }
 
   const start = new Date(booking.startDate);

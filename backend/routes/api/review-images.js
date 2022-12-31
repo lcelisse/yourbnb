@@ -6,7 +6,10 @@ const { ReviewImage, Review } = require("../../db/models");
 
 router.delete("/:imageId", requireAuth, async (req, res, next) => {
   const reviewImg = await ReviewImage.findByPk(req.params.imageId);
-  const review = await Review.findByPk(req.params.reviewId, {
+  const reviewImage = await ReviewImage.findByPk(req.params.imageId, {
+    attributes: ["reviewId"],
+  });
+  const review = await Review.findByPk(reviewImage.toJSON().reviewId, {
     attributes: ["userId"],
   });
 

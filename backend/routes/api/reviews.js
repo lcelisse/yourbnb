@@ -92,14 +92,12 @@ router.put(
     const user = await Review.findByPk(req.params.reviewId, {
       attributes: ["userId"],
     });
-
+    if (!updated) {
+      res
+        .json({ message: "Review couldn't be found", statusCode: 404 })
+        .status(404);
+    }
     if (req.user.id === user.toJSON().userId) {
-      if (!updated) {
-        res
-          .json({ message: "Review couldn't be found", statusCode: 404 })
-          .status(404);
-      }
-
       updated.set({
         review,
         stars,
@@ -151,15 +149,14 @@ router.post("/:reviewId/images", async (req, res, next) => {
   const user = await Review.findByPk(req.params.reviewId, {
     attributes: ["userId"],
   });
-
+  if (!review) {
+    const err = new Error();
+    err.title = "Not found";
+    err.status = 404;
+    err.message = [{ message: "Review couldn't be found", statusCode: 404 }];
+    return next(err);
+  }
   if (req.user.id === user.toJSON().userId) {
-    if (!review) {
-      const err = new Error();
-      err.title = "Not found";
-      err.status = 404;
-      err.message = [{ message: "Review couldn't be found", statusCode: 404 }];
-      return next(err);
-    }
     const reviewImg = await ReviewImage.findAll({
       where: {
         reviewId: req.params.reviewId,

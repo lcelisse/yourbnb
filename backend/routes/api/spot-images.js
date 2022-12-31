@@ -4,7 +4,10 @@ const router = express.Router();
 
 router.delete("/:imageId", async (req, res, next) => {
   const img = await SpotImage.findByPk(req.params.imageId);
-  const user = await Spot.findByPk(req.params.spotId, {
+  const spot = await SpotImage.findByPk(req.params.imageId, {
+    attributes: ["spotId"],
+  });
+  const user = await Spot.findByPk(spot.toJSON().spotId, {
     attributes: ["ownerId"],
   });
   if (!img) {

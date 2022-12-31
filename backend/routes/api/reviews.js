@@ -82,23 +82,38 @@ router.get("/current", requireAuth, async (req, res) => {
 
 // edit a review
 
-router.put("/:reviewId", requireAuth, validateReviews, async (req, res) => {
-  const { review, stars } = req.body;
-  const updated = await Review.findByPk(req.params.reviewId);
-  if (!updated) {
-    res
-      .json({ message: "Review couldn't be found", statusCode: 404 })
-      .status(404);
+router.put(
+  "/:reviewId",
+  requireAuth,
+  validateReviews,
+  async (req, res, next) => {
+    const { review, stars } = req.body;
+    const updated = await Review.findByPk(req.params.reviewId);
+    const user = await Review.findByPk(req.params.reviewId, {
+      attributes: ["userId"],
+    });
+
+    if (req.user.id === user.toJSON().userId) {
+      if (!updated) {
+        res
+          .json({ message: "Review couldn't be found", statusCode: 404 })
+          .status(404);
+      }
+
+      updated.set({
+        review,
+        stars,
+      });
+
+      await updated.save();
+      return res.json(updated);
+    } else {
+      const err = new Error("Forbidden");
+      err.status = 403;
+      return next(err);
+    }
   }
-
-  updated.set({
-    review,
-    stars,
-  });
-
-  await updated.save();
-  return res.json(updated);
-});
+);
 
 //delete a review
 

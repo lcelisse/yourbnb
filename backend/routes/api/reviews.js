@@ -119,53 +119,72 @@ router.put(
 
 router.delete("/:reviewId", requireAuth, async (req, res, next) => {
   const review = await Review.findByPk(req.params.reviewId);
-  if (!review) {
-    const err = new Error();
-    err.title = "Not found";
-    err.status = 404;
-    err.message = [{ message: "Review couldn't be found", statusCode: 404 }];
+  const user = await Review.findByPk(req.params.reviewId, {
+    attributes: ["userId"],
+  });
+
+  if (req.user.id === user.toJSON().userId) {
+    if (!review) {
+      const err = new Error();
+      err.title = "Not found";
+      err.status = 404;
+      err.message = [{ message: "Review couldn't be found", statusCode: 404 }];
+      return next(err);
+    }
+    review.destroy();
+    return res
+      .json({
+        message: "Successfully deleted",
+        statusCode: 200,
+      })
+      .statusCode(200);
+  } else {
+    const err = new Error("Forbidden");
+    err.status = 403;
     return next(err);
   }
-  review.destroy();
-  return res
-    .json({
-      message: "Successfully deleted",
-      statusCode: 200,
-    })
-    .statusCode(200);
 });
 
 //add an image to a review
 router.post("/:reviewId/images", async (req, res, next) => {
   const { url } = req.body;
   const review = await Review.findByPk(req.params.reviewId);
+  const user = await Review.findByPk(req.params.reviewId, {
+    attributes: ["userId"],
+  });
 
-  if (!review) {
-    const err = new Error();
-    err.title = "Not found";
-    err.status = 404;
-    err.message = [{ message: "Review couldn't be found", statusCode: 404 }];
+  if (req.user.id === user.toJSON().userId) {
+    if (!review) {
+      const err = new Error();
+      err.title = "Not found";
+      err.status = 404;
+      err.message = [{ message: "Review couldn't be found", statusCode: 404 }];
+      return next(err);
+    }
+    const reviewImg = await ReviewImage.findAll({
+      where: {
+        reviewId: req.params.reviewId,
+      },
+    });
+    if (reviewImg > 10) {
+      res
+        .json({
+          message: "Maximum number of images for this resource was reached",
+          statusCode: 403,
+        })
+        .status(403);
+    }
+
+    const newImg = await ReviewImage.create({
+      reviewId: req.params.reviewId,
+      url: url,
+    });
+
+    res.json({ id: newImg.id, url: newImg.url });
+  } else {
+    const err = new Error("Forbidden");
+    err.status = 403;
     return next(err);
   }
-  const reviewImg = await ReviewImage.findAll({
-    where: {
-      reviewId: req.params.reviewId,
-    },
-  });
-  if (reviewImg > 10) {
-    res
-      .json({
-        message: "Maximum number of images for this resource was reached",
-        statusCode: 403,
-      })
-      .status(403);
-  }
-
-  const newImg = await ReviewImage.create({
-    reviewId: req.params.reviewId,
-    url: url,
-  });
-
-  res.json({ id: newImg.id, url: newImg.url });
 });
 module.exports = router;

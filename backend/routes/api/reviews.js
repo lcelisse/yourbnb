@@ -122,15 +122,14 @@ router.delete("/:reviewId", requireAuth, async (req, res, next) => {
   const user = await Review.findByPk(req.params.reviewId, {
     attributes: ["userId"],
   });
-
+  if (!review) {
+    const err = new Error();
+    err.title = "Not found";
+    err.status = 404;
+    err.message = [{ message: "Review couldn't be found", statusCode: 404 }];
+    return next(err);
+  }
   if (req.user.id === user.toJSON().userId) {
-    if (!review) {
-      const err = new Error();
-      err.title = "Not found";
-      err.status = 404;
-      err.message = [{ message: "Review couldn't be found", statusCode: 404 }];
-      return next(err);
-    }
     review.destroy();
     return res
       .json({

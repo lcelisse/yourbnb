@@ -7,18 +7,16 @@ router.delete("/:imageId", async (req, res, next) => {
   const user = await Spot.findByPk(req.params.spotId, {
     attributes: ["ownerId"],
   });
-
+  if (!img) {
+    const err = new Error();
+    err.title = "Not found";
+    err.status = 404;
+    err.message = [
+      { message: "Spot Image couldn't be found", statusCode: 404 },
+    ];
+    return next(err);
+  }
   if (req.user.id === user.toJSON().ownerId) {
-    if (!img) {
-      const err = new Error();
-      err.title = "Not found";
-      err.status = 404;
-      err.message = [
-        { message: "Spot Image couldn't be found", statusCode: 404 },
-      ];
-      return next(err);
-    }
-
     await img.destroy();
 
     res

@@ -54,12 +54,19 @@ const authorization = async function (req, _res, next) {
   const user = await Spot.findByPk(req.params.spotId, {
     attributes: ["ownerId"],
   });
-
-  if (req.user.id === user.toJSON().ownerId) {
-    return next();
+  if (owner) {
+    if (req.user.id === user.toJSON().ownerId) {
+      return next();
+    } else {
+      const err = new Error("Forbidden");
+      err.status = 403;
+      return next(err);
+    }
   } else {
-    const err = new Error("Forbidden");
-    err.status = 403;
+    const err = new Error();
+    err.title = "Not found";
+    err.status = 404;
+    err.message = [{ message: "Spot couldn't be found", statusCode: 404 }];
     return next(err);
   }
 };
@@ -300,44 +307,30 @@ router.get("/:spotId", async (req, res, next) => {
 
 //Create Spot
 
-router.post(
-  "/",
-  requireAuth,
-  validateCreatedSpot,
-  async (req, res) => {
-    const {
-      address,
-      city,
-      state,
-      country,
-      lat,
-      lng,
-      name,
-      description,
-      price,
-    } = req.body;
+router.post("/", requireAuth, validateCreatedSpot, async (req, res) => {
+  const { address, city, state, country, lat, lng, name, description, price } =
+    req.body;
 
-    const user = await User.findOne({
-      where: {
-        id: req.user.id,
-      },
-    });
+  const user = await User.findOne({
+    where: {
+      id: req.user.id,
+    },
+  });
 
-    const newSpot = await Spot.create({
-      ownerId: user.id,
-      address: address,
-      city: city,
-      state: state,
-      country: country,
-      lat: lat,
-      lng: lng,
-      name: name,
-      description: description,
-      price: price,
-    });
-    res.json(newSpot);
-  }
-);
+  const newSpot = await Spot.create({
+    ownerId: user.id,
+    address: address,
+    city: city,
+    state: state,
+    country: country,
+    lat: lat,
+    lng: lng,
+    name: name,
+    description: description,
+    price: price,
+  });
+  res.json(newSpot);
+});
 
 //Add an Image to a Spot based on the Spots Id
 router.post(
@@ -545,14 +538,12 @@ router.post("/:spotId/bookings", requireAuth, async (req, res, next) => {
   const owner = await Spot.findByPk(req.params.spotId, {
     attributes: ["ownerId"],
   });
-
+  if (!spot) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    return next(err);
+  }
   if (req.user.id !== owner.toJSON().ownerId) {
-    if (!spot) {
-      const err = new Error("Spot couldn't be found");
-      err.status = 404;
-      return next(err);
-    }
-
     const start = new Date(startDate);
     const end = new Date(endDate);
 

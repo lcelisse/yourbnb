@@ -58,17 +58,16 @@ router.put("/:bookingId", requireAuth, async (req, res, next) => {
     attributes: ["userId"],
   });
 
+  if (!booking) {
+    const err = new Error();
+    err.title = "Not found";
+    err.status = 404;
+    err.message = [{ message: "Booking couldn't be found", statusCode: 404 }];
+    return next(err);
+  }
   if (req.user.id === user.toJSON().userId) {
     const start = new Date(startDate);
     const end = new Date(endDate);
-
-    if (!booking) {
-      const err = new Error();
-      err.title = "Not found";
-      err.status = 404;
-      err.message = [{ message: "Booking couldn't be found", statusCode: 404 }];
-      return next(err);
-    }
 
     //if the endate is before the starting date
     if (end <= start) {
@@ -142,15 +141,15 @@ router.delete("/:bookingId", requireAuth, async (req, res, next) => {
   const user = await Booking.findByPk(req.params.bookingId, {
     attributes: ["userId"],
   });
-  if (req.user.id === user.toJSON().userId) {
-    if (!booking) {
-      const err = new Error();
-      err.title = "Not found";
-      err.status = 404;
-      err.message = [{ message: "Booking couldn't be found", statusCode: 404 }];
-      return next(err);
-    }
+  if (!booking) {
+    const err = new Error();
+    err.title = "Not found";
+    err.status = 404;
+    err.message = [{ message: "Booking couldn't be found", statusCode: 404 }];
+    return next(err);
+  }
 
+  if (req.user.id === user.toJSON().userId) {
     const start = new Date(booking.startDate);
     const now = Date.now();
 

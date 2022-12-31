@@ -304,7 +304,6 @@ router.post(
   "/",
   requireAuth,
   validateCreatedSpot,
-  authorization,
   async (req, res) => {
     const {
       address,
@@ -468,7 +467,6 @@ router.post(
   "/:spotId/reviews",
   requireAuth,
   validateReviews,
-  authorization,
   async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId);
     const { review, stars } = req.body;

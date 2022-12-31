@@ -54,7 +54,7 @@ const authorization = async function (req, _res, next) {
   const user = await Spot.findByPk(req.params.spotId, {
     attributes: ["ownerId"],
   });
-  if (owner) {
+  if (user) {
     if (req.user.id === user.toJSON().ownerId) {
       return next();
     } else {

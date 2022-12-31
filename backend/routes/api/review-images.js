@@ -9,31 +9,31 @@ router.delete("/:imageId", requireAuth, async (req, res, next) => {
   const reviewImage = await ReviewImage.findByPk(req.params.imageId, {
     attributes: ["reviewId"],
   });
-  const review = await Review.findByPk(reviewImage.toJSON().reviewId, {
-    attributes: ["userId"],
-  });
 
-  if (!reviewImg) {
+  if (reviewImg) {
+    const review = await Review.findByPk(reviewImage.toJSON().reviewId, {
+      attributes: ["userId"],
+    });
+    if (req.user.id === review.toJSON().userId) {
+      await reviewImg.destroy();
+      return res
+        .json({
+          message: "Successfully deleted",
+          statusCode: 200,
+        })
+        .statusCode(200);
+    } else {
+      const err = new Error("Forbidden");
+      err.status = 403;
+      return next(err);
+    }
+  } else {
     const err = new Error();
     err.title = "Not found";
     err.status = 404;
     err.message = [
       { message: "Review Image couldn't be found", statusCode: 404 },
     ];
-    return next(err);
-  }
-
-  if (req.user.id === review.toJSON().userId) {
-    await reviewImg.destroy();
-    return res
-      .json({
-        message: "Successfully deleted",
-        statusCode: 200,
-      })
-      .statusCode(200);
-  } else {
-    const err = new Error("Forbidden");
-    err.status = 403;
     return next(err);
   }
 });

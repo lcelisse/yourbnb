@@ -199,6 +199,7 @@ router.get("/", async (req, res, next) => {
     //include preview image
     const previewImg = await SpotImage.findOne({
       where: { preview: true, spotId: spot.id },
+      attributes: ["url"],
       raw: true,
     });
 
@@ -206,7 +207,8 @@ router.get("/", async (req, res, next) => {
       ...spot.dataValues,
       avgRating: Number(review[0].avgRating),
       //fix url error where null = preview image
-      previewImage: previewImg.url,
+
+      previewImage: previewImg,
     };
     spotsList.push(spotList);
   }
@@ -236,6 +238,7 @@ router.get("/current", requireAuth, async (req, res) => {
     //include preview image
     const previewImg = await SpotImage.findOne({
       where: { preview: true, spotId: spot.id },
+      attributes: ["url"],
     });
 
     let spotList = {

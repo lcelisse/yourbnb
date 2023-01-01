@@ -14,6 +14,7 @@ router.get("/current", requireAuth, async (req, res) => {
     },
     raw: true,
   });
+
   //fix ordering
   for (let booking of bookings) {
     const spot = await Spot.findOne({
@@ -32,18 +33,20 @@ router.get("/current", requireAuth, async (req, res) => {
         "name",
         "price",
       ],
+      include: [
+        {
+          model: SpotImage,
+          attributes: ["url"],
+        },
+      ],
       raw: true,
     });
+    if (booking.length === 0) {
+      return res.json({
+        message: "No bookings for current spot",
+      });
+    }
 
-    const previewImg = await SpotImage.findOne({
-      where: {
-        preview: true,
-        spotId: booking.spotId,
-      },
-      raw: true,
-    });
-
-    spot.previewImg = previewImg.url;
     booking.Spot = spot;
   }
 

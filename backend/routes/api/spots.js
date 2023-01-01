@@ -566,6 +566,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res, next) => {
       },
       raw: true,
     });
+ 
     for (let booking of bookings) {
       let { startDate, endDate } = booking;
       startDate = new Date(startDate);

@@ -57,16 +57,15 @@ router.get("/current", requireAuth, async (req, res) => {
         "name",
         "price",
       ],
+      include: [
+        {
+          model: SpotImage,
+          attributes: ["url"],
+        },
+      ],
       raw: true,
     });
 
-    const previewImg = await SpotImage.findOne({
-      where: { preview: true, spotId: spot.id },
-      attributes: ["url"],
-      raw: true,
-    });
-
-    spot.previewImage = previewImg;
     reviews.Spot = spot;
 
     const reviewImg = await ReviewImage.findAll({

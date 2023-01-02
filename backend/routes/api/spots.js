@@ -501,7 +501,7 @@ router.post(
 );
 
 //bookings by spot id
-router.get("/:spotId/bookings", async (req, res, next) => {
+router.get("/:spotId/bookings", requireAuth, async (req, res, next) => {
   const spot = await Spot.findByPk(req.params.spotId);
 
   if (!spot) {

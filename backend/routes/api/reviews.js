@@ -163,12 +163,15 @@ router.post("/:reviewId/images", async (req, res, next) => {
       },
     });
     if (reviewImg.length >= 10) {
-      res
-        .json({
+      const err = new Error();
+      err.status = 403;
+      err.message = [
+        {
           message: "Maximum number of images for this resource was reached",
           statusCode: 403,
-        })
-        .status(403);
+        },
+      ];
+      return next(err);
     }
 
     const newImg = await ReviewImage.create({

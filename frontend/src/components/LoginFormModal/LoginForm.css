@@ -1,0 +1,8 @@
+.loginform {
+  display: flex;
+  flex-direction: column;
+}
+
+.button {
+  margin-left: 200px;
+}

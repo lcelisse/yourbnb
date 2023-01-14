@@ -33,8 +33,8 @@ function Navigation({ isLoaded }) {
   }
 
   return (
-    <ul>
-      <li>
+    <ul className="nav">
+      <li className="list">
         <NavLink exact to="/">
           Home
         </NavLink>

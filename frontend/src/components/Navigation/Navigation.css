@@ -1,0 +1,33 @@
+.nav {
+  height: 80px;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.menu {
+  position: relative;
+}
+
+.profilebutton {
+  height: 40px;
+  width: 80px;
+  border-radius: 100px;
+  border: solid 1px black;
+}
+
+.profilebutton:hover {
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.profile-menu {
+  position: absolute;
+  right: 0;
+  top: 50px;
+}

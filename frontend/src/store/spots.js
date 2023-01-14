@@ -9,42 +9,42 @@ const SPOT_DETAILS = "spots/getSpotDetails";
 const USER_SPOTS = "spots/getUserSpots";
 
 //ACTIONS
-export const deleteSpots = (deleteSpot) => {
+const deleteSpots = (deleteSpot) => {
   return {
     type: DELETE,
     deleteSpot,
   };
 };
 
-export const createSpots = (newSpot) => {
+const createSpots = (newSpot) => {
   return {
     type: CREATE,
     newSpot,
   };
 };
 
-export const editSpots = (editSpot) => {
+const editSpots = (editSpot) => {
   return {
     type: EDIT,
     editSpot,
   };
 };
 
-export const getSpots = (spots) => {
+const getSpots = (spots) => {
   return {
     type: GET,
     spots,
   };
 };
 
-export const getSpotDetails = (spot) => {
+const getSpotDetails = (spot) => {
   return {
     type: SPOT_DETAILS,
     spot,
   };
 };
 
-export const getUserSpots = (userSpots) => {
+const getUserSpots = (userSpots) => {
   return {
     type: USER_SPOTS,
     userSpots,
@@ -53,7 +53,7 @@ export const getUserSpots = (userSpots) => {
 
 //THUNKS
 
-export const deleteSpotsThunk = (deleteSpot) => async (dispatch) => {
+export const deleteSpotsThunk = (deleteSpot, spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}`, {
     method: "DELETE",
   });
@@ -171,7 +171,7 @@ const spotReducer = (state = initialState, action) => {
     case GET:
       const allSpots = {};
       const getAllSpots = action.payload.Spots;
-      getAllSpots.forEach((eachSpot) => (allSpots[eachSpot.id] = spot));
+      getAllSpots.forEach((eachSpot) => (allSpots[eachSpot.id] = eachSpot));
       newState["allSpots"] = { ...allSpots };
       return newState;
     case SPOT_DETAILS:

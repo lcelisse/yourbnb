@@ -2,20 +2,18 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getSpotsThunk } from "../../../store/spots";
+import "./AllSpots.css";
 
 export default function AllSpots() {
+  const spots = useSelector((state) => state.spot.allSpots);
   const dispatch = useDispatch();
-  const history = useHistory;
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(getSpotsThunk());
   }, [dispatch]);
 
-  const spots = useSelector((state) => state.spot);
-
-  const allSpots = Object.values(spots);
-  if (!allSpots) return null;
-  console.log("hmm", allSpots);
+  const allOfSpots = Object.values(spots);
 
   const clickHandler = (spotId) => {
     history.push(`/spots/${spotId}`);
@@ -25,7 +23,7 @@ export default function AllSpots() {
     <div className="allSpots-container">
       <div>
         <ul className="spots-card">
-          {allSpots.map((spot) => {
+          {allOfSpots.map((spot) => {
             return (
               <div
                 className="if-clicked"
@@ -35,20 +33,22 @@ export default function AllSpots() {
                 <span className="previewImg">
                   <img
                     className="spot-img"
-                    src={spot.previewImage}
+                    src={spot.previewImage.url}
                     alt={`${spot.name}`}
                   />
                 </span>
-                <span>
-                  {spot.city}, {spot.state}
+                <span className="location">
+                  {spot.city}, {spot.state}{" "}
+                  <span>
+                    {" "}
+                    ★
+                    {Number(spot.avgRating)
+                      ? Number(spot.avgRating).toFixed(1)
+                      : "No Reviews Yet"}
+                  </span>
                 </span>
-                <span className="review-star">
-                  ★{" "}
-                  {Number(spot.avgRating)
-                    ? Number(spot.avgRating).toFixed(1)
-                    : "No Reviews Yet"}{" "}
-                </span>
-                <span className="name">{spot.name}</span>
+
+                <div className="name">{spot.name}</div>
                 <span className="price">{spot.price} per night</span>
               </div>
             );

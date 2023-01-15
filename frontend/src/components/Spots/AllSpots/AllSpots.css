@@ -1,0 +1,36 @@
+.allSpots-container {
+  height: 100%;
+  margin: 40px;
+  display: block;
+}
+
+.spots-card {
+  height: 350px;
+  width: 280px;
+  margin: 10px;
+  background: transparent;
+}
+
+.previewImg {
+  object-fit: cover;
+  border-radius: 10px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.review-star {
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+}
+
+.location {
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+}
+.price {
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+}

@@ -64,7 +64,7 @@ export const deleteReviewThunk = (deleteReview) => async (dispatch) => {
   });
 
   if (response.ok) {
-    dispatch(deleteReview(deleteReview));
+    dispatch(deleteReview(deleteReviews));
   }
 };
 export const getUserReviewsThunk = () => async (dispatch) => {

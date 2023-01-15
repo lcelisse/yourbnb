@@ -21,7 +21,7 @@ export default function AllSpots() {
 
   return (
     <div className="allSpots-container">
-      <div>
+      <div className="spot">
         <ul className="spots-card">
           {allOfSpots.map((spot) => {
             return (

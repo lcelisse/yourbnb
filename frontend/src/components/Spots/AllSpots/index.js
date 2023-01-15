@@ -12,7 +12,7 @@ export default function AllSpots() {
   useEffect(() => {
     dispatch(getSpotsThunk());
   }, [dispatch]);
-
+  if (!spots) return null;
   const allOfSpots = Object.values(spots);
 
   const clickHandler = (spotId) => {

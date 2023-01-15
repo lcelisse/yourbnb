@@ -170,8 +170,9 @@ const spotReducer = (state = initialState, action) => {
       return newState;
     case GET:
       const allSpots = {};
-      const getAllSpots = action.payload.Spots;
+      const getAllSpots = action.spots.Spots;
       getAllSpots.forEach((eachSpot) => (allSpots[eachSpot.id] = eachSpot));
+
       newState["allSpots"] = { ...allSpots };
       return newState;
     case SPOT_DETAILS:

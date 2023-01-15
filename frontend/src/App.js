@@ -13,16 +13,16 @@ function App() {
   }, [dispatch]);
 
   return (
-    <>
-      <Navigation isLoaded={isLoaded} />
-      {isLoaded && (
+    isLoaded && (
+      <>
+        <Navigation isLoaded={isLoaded} />
         <Switch>
           <Route exact path={"/"}>
             <AllSpots />
           </Route>
         </Switch>
-      )}
-    </>
+      </>
+    )
   );
 }
 

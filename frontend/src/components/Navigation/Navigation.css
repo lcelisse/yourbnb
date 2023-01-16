@@ -26,4 +26,27 @@
 .createBnb {
   list-style: none;
   padding: 5px;
+  border-radius: 15px;
+  text-align: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.profile {
+  height: 40px;
+  width: 80px;
+  border-radius: 100px;
+  border: solid 1px gray;
+  background-color: white;
+}
+
+.menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  padding: 10px;
+  border-radius: 5%;
+  background-color: white;
+  width: 10rem;
+  display: flex;
 }

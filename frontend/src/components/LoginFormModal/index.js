@@ -3,6 +3,7 @@ import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
+import { useHistory } from "react-router-dom";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
@@ -10,7 +11,7 @@ function LoginFormModal() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
-
+  const history = useHistory();
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
@@ -22,8 +23,23 @@ function LoginFormModal() {
       });
   };
 
+  const demoUser = (e) => {
+    e.preventDefault();
+    dispatch(
+      sessionActions.login({
+        credential: "demo@user.io",
+        password: "password",
+      })
+    )
+      .then(closeModal)
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) setErrors(data.errors);
+      });
+  };
+
   return (
-    <div className='container'>
+    <div className="container">
       <h1 className="login-title">Log In</h1>
       <form onSubmit={handleSubmit} className="loginform">
         <ul className="error-list">
@@ -34,17 +50,18 @@ function LoginFormModal() {
         <label>
           Username or Email
           <input
-        className="login-input"
+            className="login-input"
             type="text"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
             required
           />
         </label>
+
         <label>
           Password
           <input
-          className="login=input"
+            className="login=input"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -53,6 +70,9 @@ function LoginFormModal() {
         </label>
         <button className="button" type="submit">
           Log In
+        </button>
+        <button onClick={demoUser} type="submit" className="demoLogin">
+          Demo User
         </button>
       </form>
     </div>

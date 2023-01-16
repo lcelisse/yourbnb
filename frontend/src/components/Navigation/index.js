@@ -35,7 +35,7 @@ function Navigation({ isLoaded }) {
             <div className="createBnb">
               <div>
                 <OpenModalMenuItem
-                  buttonText="Sign Up"
+                  buttonText="bnb your home"
                   modalComponent={<SignupFormModal />}
                 />
               </div>

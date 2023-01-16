@@ -1,10 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import "./Navigation.css";
 import * as sessionActions from "../../store/session";
+import OpenModalMenuItem from "./OpenModalMenuItem";
+import LoginFormModal from "../LoginFormModal";
+import SignupFormModal from "../SignupFormModal";
+import { useHistory } from "react-router-dom";
+import "./Navigation.css";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
@@ -16,8 +21,10 @@ function ProfileButton({ user }) {
   useEffect(() => {
     if (!showMenu) return;
 
-    const closeMenu = () => {
-      setShowMenu(false);
+    const closeMenu = (e) => {
+      if (!ulRef.current.contains(e.target)) {
+        setShowMenu(false);
+      }
     };
 
     document.addEventListener("click", closeMenu);
@@ -25,33 +32,78 @@ function ProfileButton({ user }) {
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
+  const closeMenu = () => setShowMenu(false);
+
   const logout = (e) => {
     e.preventDefault();
+    history.push("/");
     dispatch(sessionActions.logout());
+    closeMenu();
+  };
+
+  const userSpots = (e) => {
+    e.preventDefault();
+    history.push("/my-spots");
+    closeMenu();
+  };
+
+  const demoUser = (e) => {
+    e.preventDefault();
+    const credential = "demo@user.io";
+    const password = "password";
+    dispatch(sessionActions.login(credential, password));
+    // closeMenu();
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
-    <div className="menu">
-      <button className="profilebutton" onClick={openMenu}>
+    <>
+      <div className="profile-button"></div>
+      <button onClick={openMenu}>
         <i className="fas fa-user-circle" />
+        <i className="fa-solid fa-bars" />
       </button>
-      <div className="profile-menu">
-        <ul className={ulClassName} ref={ulRef}>
-          <li>{user.username}</li>
-          <li>
-            {user.firstName} {user.lastName}
-          </li>
-          <li>{user.email}</li>
-          <li>
-            <button className="button" onClick={logout}>
-              Log Out
+      <ul className={ulClassName} ref={ulRef}>
+        {user ? (
+          <div className="profileInfo">
+            <li>{user.username}</li>
+            <li>
+              {user.firstName} {user.lastName}
+            </li>
+            <li>{user.email}</li>
+            <li>
+              <button onClick={userSpots} className="userSpots-button">
+                My Spots
+              </button>
+              <button onClick={logout} className="userLogout-button">
+                Log Out
+              </button>
+            </li>
+          </div>
+        ) : (
+          <div className="menu">
+            <div className="logIn">
+              <OpenModalMenuItem
+                itemText="Log In"
+                onItemClick={closeMenu}
+                modalComponent={<LoginFormModal />}
+              />
+            </div>
+            <div className="signUp">
+              <OpenModalMenuItem
+                itemText="Sign Up"
+                onItemClick={closeMenu}
+                modalComponent={<SignupFormModal />}
+              />
+            </div>
+            <button onClick={demoUser} type="submit" className="demoLogin">
+              Demo User
             </button>
-          </li>
-        </ul>
-      </div>
-    </div>
+          </div>
+        )}
+      </ul>
+    </>
   );
 }
 

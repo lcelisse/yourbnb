@@ -1,33 +1,29 @@
-.nav {
-  height: 80px;
-  margin: 0;
-  display: flex;
-  justify-content: center;
+.hidden {
+  display: none;
 }
 
-.list {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.navBar {
+  top: 0;
   width: 100%;
-}
-.menu {
-  position: relative;
-}
-
-.profilebutton {
-  height: 40px;
-  width: 80px;
-  border-radius: 100px;
-  border: solid 1px black;
+  position: sticky;
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 15px 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
 }
 
-.profilebutton:hover {
-  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+.topRight {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 250px;
+  box-sizing: border-box;
 }
 
-.profile-menu {
-  position: absolute;
-  right: 0;
-  top: 50px;
+.createBnb {
+  list-style: none;
+  padding: 5px;
 }

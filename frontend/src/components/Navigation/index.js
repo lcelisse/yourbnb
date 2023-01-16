@@ -3,44 +3,50 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import OpenModalButton from "../OpenModalButton";
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import "./Navigation.css";
+import CreateSpot from "../Spots/CreateSpot";
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
 
-  let sessionLinks;
-  if (sessionUser) {
-    sessionLinks = (
-      <li>
-        <ProfileButton user={sessionUser} />
-      </li>
-    );
-  } else {
-    sessionLinks = (
-      <li>
-        <OpenModalButton
-          buttonText="Log In"
-          modalComponent={<LoginFormModal />}
-        />
-        <OpenModalButton
-          buttonText="Sign Up"
-          modalComponent={<SignupFormModal />}
-        />
-      </li>
-    );
-  }
-
   return (
-    <ul className="nav">
-      <li className="list">
+    <div className="navBar">
+      <div className="topLeft">
         <NavLink exact to="/">
           Home
         </NavLink>
-      </li>
-      {isLoaded && sessionLinks}
-    </ul>
+      </div>
+
+      {isLoaded && (
+        <div className="topRight">
+          {sessionUser ? (
+            <div className="createBnb">
+              <div>
+                <OpenModalMenuItem
+                  buttonText="bnb your home"
+                  modalComponent={<CreateSpot />}
+                />
+              </div>
+            </div>
+          ) : (
+            <div className="createBnb">
+              <div>
+                <OpenModalMenuItem
+                  buttonText="Sign Up"
+                  modalComponent={<SignupFormModal />}
+                />
+              </div>
+            </div>
+          )}
+          <div className="profileButton">
+            <ProfileButton user={sessionUser} />
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 

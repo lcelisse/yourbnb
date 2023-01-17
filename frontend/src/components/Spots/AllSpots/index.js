@@ -35,20 +35,21 @@ export default function AllSpots() {
                 alt={`${spot.name}`}
               />
             </div>
-            <div className="location">
-              <h3>
+            <div className="spot-container">
+              <p className="location">
                 {spot.city}, {spot.state}
-                <span>
+                <span className="stars">
                   ★
                   {Number(spot.avgRating)
                     ? Number(spot.avgRating).toFixed(1)
                     : "No Reviews Yet"}
                 </span>
-              </h3>
-            </div>
-            <div className="name">
-              <span>{spot.name}</span>
-              <span className="price">{spot.price} per night</span>
+              </p>
+
+              <p className="spot-name">{spot.name}</p>
+              <p className="price">
+                <span className="spot-price">${spot.price}</span> night
+              </p>
             </div>
           </div>
         );

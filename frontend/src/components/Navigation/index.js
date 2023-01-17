@@ -3,11 +3,12 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 
-import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
+import OpenModalMenuItem from "./OpenModalMenuItem";
 
 import SignupFormModal from "../SignupFormModal";
 import "./Navigation.css";
-
+import logo from "./img/airbnb.png";
+import bnb from "./img/bnb.png";
 import CreateSpotForm from "../Spots/CreateSpot/index";
 
 function Navigation({ isLoaded }) {
@@ -18,7 +19,8 @@ function Navigation({ isLoaded }) {
       <div className="nav">
         <div className="topLeft">
           <NavLink exact to="/">
-            Home
+            <img className="logo-img" src={logo} />
+            <img className="logo-img1" src={bnb} />
           </NavLink>
         </div>
 

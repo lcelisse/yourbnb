@@ -1,56 +1,38 @@
 .allSpots-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.spots-card {
-  height: 350px;
-  width: 280px;
-  margin: 10px;
-  background: transparent;
-}
-
-.previewImg {
-  object-fit: cover;
-  border-radius: 10px;
-  cursor: pointer;
-  box-sizing: border-box;
-}
-
-.review-star {
-  font-weight: 600;
-  display: flex;
-  justify-content: space-between;
-}
-
-.location {
-  font-weight: 600;
-  display: flex;
-  justify-content: space-between;
-}
-.price {
-  display: flex;
-  flex-direction: column;
-  align-content: space-between;
+  margin: 30px;
+  border: 0;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .spot {
-  width: 60rem;
-  margin-bottom: 5rem;
+  display: inline-block;
+  margin: 1rem;
+  width: 17rem;
+  cursor: pointer;
+}
+
+.spot-img {
+  width: 100%;
+  height: 17rem;
+  object-fit: cover;
+  border-radius: 5%;
+}
+
+.location > * {
+  width: 60%;
+  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-
+}
+.location > span {
+  width: fit-content;
 }
 
-.previewImg > img {
-  object-fit: cover;
-  width: 100%;
-  height: 25rem;
-  border-radius: 10px;
-}
 
-.previewImg {
-  display: flex;
-  justify-content: center;
+
+.location > div,
+h3 {
+  margin: 0;
 }

@@ -21,40 +21,38 @@ export default function AllSpots() {
 
   return (
     <div className="allSpots-container">
-      <div className="spot">
-        <ul className="spots-card">
-          {allOfSpots.map((spot) => {
-            return (
-              <div
-                className="if-clicked"
-                key={spot.id}
-                onClick={() => clickHandler(spot.id)}
-              >
-                <span className="previewImg">
-                  <img
-                    className="spot-img"
-                    src={spot.previewImage.url}
-                    alt={`${spot.name}`}
-                  />
+      {allOfSpots.map((spot) => {
+        return (
+          <div
+            className="spot"
+            key={spot.id}
+            onClick={() => clickHandler(spot.id)}
+          >
+            <div className="previewImg">
+              <img
+                className="spot-img"
+                src={spot.previewImage.url}
+                alt={`${spot.name}`}
+              />
+            </div>
+            <div className="location">
+              <h3>
+                {spot.city}, {spot.state}
+                <span>
+                  ★
+                  {Number(spot.avgRating)
+                    ? Number(spot.avgRating).toFixed(1)
+                    : "No Reviews Yet"}
                 </span>
-                <span className="location">
-                  {spot.city}, {spot.state}{" "}
-                  <span>
-                    {" "}
-                    ★
-                    {Number(spot.avgRating)
-                      ? Number(spot.avgRating).toFixed(1)
-                      : "No Reviews Yet"}
-                  </span>
-                </span>
-
-                <div className="name">{spot.name}</div>
-                <span className="price">{spot.price} per night</span>
-              </div>
-            );
-          })}
-        </ul>
-      </div>
+              </h3>
+            </div>
+            <div className="name">
+              <span>{spot.name}</span>
+              <span className="price">{spot.price} per night</span>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }

@@ -49,8 +49,8 @@
 
 .menu {
   position: absolute;
-  height: 130%;
-  width: 9%;
+  height: 140%;
+  width: 10%;
   top: 60px;
   right: 80px;
   border-radius: 12px;
@@ -112,8 +112,8 @@
 
 .loggedIn {
   position: absolute;
-  height: 170%;
-  width: 11%;
+  height: 180%;
+  width: 10%;
   top: 60px;
   right: 80px;
   border-radius: 12px;

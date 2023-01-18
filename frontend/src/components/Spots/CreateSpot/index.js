@@ -60,8 +60,7 @@ export default function CreateSpotForm({ setShowModal }) {
   return (
     <div className="formContainer">
       <div className="title">
-        <span className="red">Bnb it!</span>
-        <span className="white">You could earn money .</span>
+        <p className="red">Bnb you home !</p>
       </div>
       <div className="form">
         <form className="createSpot" onSubmit={handleSubmit}>

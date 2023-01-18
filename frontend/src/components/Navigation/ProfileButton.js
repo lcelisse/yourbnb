@@ -5,6 +5,7 @@ import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import { useHistory } from "react-router-dom";
+import CreateSpotForm from "../Spots/CreateSpot";
 import "./Navigation.css";
 
 function ProfileButton({ user }) {
@@ -47,6 +48,8 @@ function ProfileButton({ user }) {
     closeMenu();
   };
 
+  const usersReviews = () => {};
+
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
@@ -60,20 +63,24 @@ function ProfileButton({ user }) {
 
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
-          <div className="profileInfo">
-            <ul>{user.username}</ul>
-            <ul>
-              {user.firstName} {user.lastName}
-            </ul>
-            <ul>{user.email}</ul>
-            <ul>
-              <button onClick={userSpots} className="userSpots-button">
-                My Spots
-              </button>
-              <button onClick={logout} className="userLogout-button">
-                Log Out
-              </button>
-            </ul>
+          <div className="loggedIn">
+            <button onClick={userSpots} className="userSpots-button">
+              My Spots
+            </button>
+            <button onClick={usersReviews} className="userReviews-button">
+              My Reviews
+            </button>
+            <button onClick={logout} className="userLogout-button">
+              Log Out
+            </button>
+            <div>
+              <OpenModalMenuItem
+                className="bnbCreate"
+                itemText="bnb your home"
+                onItemClick={CreateSpotForm}
+                modalComponent={<CreateSpotForm />}
+              />
+            </div>
           </div>
         ) : (
           <div className="menu">
@@ -88,6 +95,12 @@ function ProfileButton({ user }) {
               <OpenModalMenuItem
                 itemText="Sign Up"
                 onItemClick={closeMenu}
+                modalComponent={<SignupFormModal />}
+              />
+            </div>
+            <div className="create">
+              <OpenModalMenuItem
+                itemText="bnb your home"
                 modalComponent={<SignupFormModal />}
               />
             </div>

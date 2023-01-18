@@ -129,7 +129,7 @@ export default function SpotDetails() {
                 </h4>
               </div>
               <div className="inDepthInfo">
-                <h3>{spot.description}</h3>
+                <p>{spot.description}</p>
               </div>
             </div>
             <div className="booking-container">

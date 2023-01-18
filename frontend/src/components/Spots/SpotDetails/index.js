@@ -132,32 +132,37 @@ export default function SpotDetails() {
                 <p>{spot.description}</p>
               </div>
             </div>
-            <div className="booking-container">
-              <div className="topPart">
-                <h2 className="a-night">
-                  ${spot.price} night{" "}
-                  <span className="star-reviews">
-                    ★
-                    {Number(spot.avgStarRating)
-                      ? Number(spot.avgStarRating).toFixed(1)
-                      : "No Reviews Yet"}{" "}
-                    · {spot.numReviews} Reviews
-                  </span>
-                </h2>
-              </div>
-              <div className="button"></div>
-              <button className="checkout"> Unavailable </button>
+            <div className="booking-spot">
+              <div className="booking-container">
+                <div className="topPart">
+                  <div>
+                    <span className="a-night">${spot.price} night </span>
+                  </div>
+                  <div className="star-reviews">
+                    <span className="star-reviews">
+                      ★
+                      {Number(spot.avgStarRating)
+                        ? Number(spot.avgStarRating).toFixed(1)
+                        : "No Reviews Yet"}{" "}
+                      · {spot.numReviews} Reviews
+                    </span>
+                  </div>
+                </div>
+                <div className="button"></div>
+                <button className="checkout"> Unavailable </button>
 
-              <p className="no-charge">You won't be charged yet</p>
-              <div className="fees">
-                <div className="night-fees">
-                  ${spot.price} x 5 nights <span>${spot.price * 5}</span>
-                </div>
-                <div className="night-fees">
-                  Cleaning Fee <span>${(spot.price * 0.5).toFixed(0)}</span>
-                </div>
-                <div className="night-fees">
-                  Service Fee <span>${(spot.price * 0.15).toFixed(0)}</span>
+                <p className="no-charge">You won't be charged yet</p>
+                <div className="fees">
+                  <div className="night-fees">
+                    ${spot.price} x 5 nights <span>${spot.price * 5}</span>
+                  </div>
+                  <div className="night-fees">
+                    Cleaning Fee <span>${(spot.price * 0.5).toFixed(0)}</span>
+                  </div>
+                  <div className="night-fees">
+                    Service Fee <span>${(spot.price * 0.15).toFixed(0)}</span>
+                  </div>
+
                 </div>
               </div>
             </div>

@@ -1,0 +1,35 @@
+.container {
+    width: 100%;
+    margin-bottom: 10px;
+
+}
+
+
+.pf {
+    height: 30px;
+    margin-bottom: 10px;
+}
+
+.review-user {
+    font-weight: lighter;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+}
+
+.pfp {
+    display: flex;
+    align-items: center;
+
+}
+
+.desc {
+    margin-bottom: 20px;
+    font-family: sans-serif;
+}

@@ -44,11 +44,9 @@ function ProfileButton({ user }) {
 
   const userSpots = (e) => {
     e.preventDefault();
-    history.push("/my-spots");
+    history.push(`/my-spots`);
     closeMenu();
   };
-
-  const usersReviews = () => {};
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
@@ -67,7 +65,7 @@ function ProfileButton({ user }) {
             <button onClick={userSpots} className="userSpots-button">
               My Spots
             </button>
-            <button onClick={usersReviews} className="userReviews-button">
+            <button onClick={userSpots} className="userReviews-button">
               My Reviews
             </button>
             <button onClick={logout} className="userLogout-button">

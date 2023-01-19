@@ -7,6 +7,7 @@ import { getUserSpotsThunk } from "../../../store/spots";
 import * as spotActions from "../../../store/spots";
 import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
 import EditForm from "../EditSpot";
+import "./UsersSpots.css";
 
 export default function UsersSpots() {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ export default function UsersSpots() {
 
   const sessionUser = useSelector((state) => state.session.user);
   const spots = useSelector((state) => state.spot.userSpots);
-//   const spotsArr = spots.Spots;
+  //   const spotsArr = spots.Spots;
 
   useEffect(() => {
     dispatch(getUserSpotsThunk());
@@ -33,12 +34,12 @@ export default function UsersSpots() {
           <h2>Your Spots</h2>
         </div>
         <div className="eachSpot">
-          {spots['Spots'].map((spot) => {
+          {spots["Spots"].map((spot) => {
             return (
               <div className="eachSpot-container" key={spot.id}>
                 <div className="spot-info">
                   <div className="img">
-                    <img src={spot.previewImage} />
+                    <img src={spot.previewImage} className='pic' />
                   </div>
                   <div className="spot-desc">
                     <div className="spot-firstPart">
@@ -52,20 +53,20 @@ export default function UsersSpots() {
                       · {spot.city} , {spot.state} ,{spot.country}
                     </div>
                     <div className="inDepth-desc">{spot.description}</div>
-                    <div className="spot-price">
-                      <p>${spot.price} /night</p>
+                    <div>
+                      <h2 className="spot-price">${spot.price}</h2> /night
                     </div>
                   </div>
                 </div>
                 <div className="userSpots-buttons">
-                  <div>
-                    <OpenModalMenuItem
-                      className="bnbCreate"
-                      itemText="Edit"
-                      onItemClick={EditForm}
-                      modalComponent={<EditForm />}
-                    />
-                  </div>
+                  <OpenModalMenuItem
+                    className="editBttn"
+                    itemText="Edit Your Spot"
+                    onItemClick={EditForm}
+                    modalComponent={<EditForm />}
+                  />
+                </div>
+                <div>
                   <button
                     className="deleteSpot"
                     onClick={async () => {

@@ -42,6 +42,12 @@ function ProfileButton({ user }) {
     closeMenu();
   };
 
+  const userReviews = (e) => {
+    e.preventDefault();
+    history.push(`/my-reviews`);
+    closeMenu();
+  };
+
   const userSpots = (e) => {
     e.preventDefault();
     history.push(`/my-spots`);
@@ -65,7 +71,7 @@ function ProfileButton({ user }) {
             <button onClick={userSpots} className="userSpots-button">
               My Spots
             </button>
-            <button onClick={userSpots} className="userReviews-button">
+            <button onClick={userReviews} className="userReviews-button">
               My Reviews
             </button>
             <button onClick={logout} className="userLogout-button">

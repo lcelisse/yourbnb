@@ -36,6 +36,20 @@ const getUserReviews = (userReviews) => {
 };
 
 //THUNKS
+export const editReviewThunks = (review, reviewId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/reviews/${reviewId}`, {
+    method: "PUT",
+    body: JSON.stringify(review),
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    return data;
+  } else {
+    throw response;
+  }
+};
+
 export const getSpotReviewsThunk = (reviews) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${reviews}/reviews`);
 

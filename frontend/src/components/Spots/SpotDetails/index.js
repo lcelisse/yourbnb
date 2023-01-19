@@ -8,6 +8,7 @@ import SpotReviews from "../../Reviews/SpotReviews";
 import none from "./img/no.jpg";
 import CreateReviewForm from "../../Reviews/CreateReview";
 import up from "./img/usr.png";
+import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
 
 export default function SpotDetails() {
   const dispatch = useDispatch();
@@ -162,7 +163,6 @@ export default function SpotDetails() {
                   <div className="night-fees">
                     Service Fee <span>${(spot.price * 0.15).toFixed(0)}</span>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -177,7 +177,16 @@ export default function SpotDetails() {
                 · {spot.numReviews} Reviews
               </div>
               <div className={reviewClass}>
-                <CreateReviewForm spot={spotId} submitted={setSubmitted} />
+                <OpenModalMenuItem
+                  className="addReview"
+                  itemText="Add a review"
+                  modalComponent={
+                    <CreateReviewForm
+                      spotId={spotId}
+                      submitted={setSubmitted}
+                    />
+                  }
+                />
               </div>
             </div>
 

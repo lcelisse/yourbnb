@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
+import { useModal } from "../../../context/Modal";
 import { createSpotsThunk } from "../../../store/spots";
 import "./CreateSpot.css";
 
 export default function CreateSpotForm({ setShowModal }) {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { closeModal } = useModal();
   const sessionUser = useSelector((state) => state.session.user);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -48,6 +50,8 @@ export default function CreateSpotForm({ setShowModal }) {
         setState("");
         setPrice("");
         setPreviewImage("");
+
+        closeModal();
         history.push(`/spots/${response.id}`);
       })
       .then(() => setShowModal(false))

@@ -15,7 +15,7 @@ const {
 const validateReviews = [
   check("stars")
     .exists({ checkFalsy: true })
-    .isInt({min: 1, max: 5})
+    .isInt({ min: 1, max: 5 })
     .withMessage("Stars must be an integer from 1 to 5"),
   check("review")
     .exists({ checkFalsy: true })
@@ -245,7 +245,7 @@ router.get("/current", requireAuth, async (req, res) => {
     let spotList = {
       ...spot.dataValues,
       avgRating: Number(review[0].avgRating),
-      previewImage: previewImg.url,
+      previewImage: previewImg ? previewImg.url : 'none',
     };
     spotsList.push(spotList);
   }

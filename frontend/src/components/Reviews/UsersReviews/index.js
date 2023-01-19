@@ -12,15 +12,19 @@ import "./UsersReview.css";
 export default function UsersReviews() {
   const dispatch = useDispatch();
   const history = useHistory();
+
   const [submit, setSubmit] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
+
   useEffect(() => {
     dispatch(getUserReviewsThunk());
     setSubmit(false);
   }, [dispatch, setSubmit]);
+
   const userReviews = useSelector((state) => state.review.userReviews);
   if (!sessionUser) return <Redirect to="/" />;
   if (!userReviews) return null;
+  
   return (
     <div className="userReview-container">
       <div className="review-container">

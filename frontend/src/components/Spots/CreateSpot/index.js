@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
 import { useModal } from "../../../context/Modal";
 import { createSpotsThunk } from "../../../store/spots";
-import * as spotActions from '../../../store/spots'
+import * as spotActions from "../../../store/spots";
 import "./CreateSpot.css";
 
 export default function CreateSpotForm({ setSubmitted }) {
@@ -78,7 +78,7 @@ export default function CreateSpotForm({ setSubmitted }) {
         <p className="red">Bnb you home !</p>
       </div>
       <div className="form">
-        <form className="createSpot" onSubmit={handleSubmit}>
+        <form className="createSpot">
           <input
             className="input1"
             type="text"
@@ -149,7 +149,7 @@ export default function CreateSpotForm({ setSubmitted }) {
             ))}
           </ul>
         </form>
-        <button className="createBnb" type="submit">
+        <button className="createBnb" type="submit" onClick={handleSubmit}>
           Bnb Your Spot
         </button>
       </div>

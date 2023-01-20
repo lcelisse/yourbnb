@@ -31,7 +31,7 @@ export default function AllSpots() {
             <div className="previewImg">
               <img
                 className="spot-img"
-                src={spot.previewImage ? spot.previewImage.url : "yes"}
+                src={spot.previewImage ? spot.previewImage.url : null}
                 alt={`${spot.name}`}
               />
             </div>

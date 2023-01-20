@@ -22,7 +22,7 @@ export default function UsersSpots() {
   useEffect(() => {
     dispatch(getUserSpotsThunk());
     setSubmitted(false);
-  }, [dispatch, submitted]);
+  }, [dispatch, setSubmitted]);
 
   if (!sessionUser) return <Redirect to="/" />;
   if (!spots) return null;
@@ -39,7 +39,7 @@ export default function UsersSpots() {
               <div className="eachSpot-container" key={spot.id}>
                 <div className="spot-info">
                   <div className="img">
-                    <img src={spot.previewImage} className='pic' />
+                    <img src={spot.previewImage} className="pic" />
                   </div>
                   <div className="spot-desc">
                     <div className="spot-firstPart">

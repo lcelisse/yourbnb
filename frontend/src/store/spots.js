@@ -53,8 +53,8 @@ const getUserSpots = (userSpots) => {
 
 //THUNKS
 
-export const deleteSpotsThunk = (deleteSpot, spotId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/spots/${spotId}`, {
+export const deleteSpotsThunk = (deleteSpot) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${deleteSpot}`, {
     method: "DELETE",
   });
 
@@ -149,7 +149,7 @@ export const getUserSpotsThunk = () => async (dispatch) => {
     dispatch(getUserSpots(spots));
     return spots;
   } else {
-    throw response
+    throw response;
   }
 };
 

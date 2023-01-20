@@ -5,8 +5,6 @@ import {
   useHistory,
 } from "react-router-dom/cjs/react-router-dom.min";
 import { deleteReviewThunk, getUserReviewsThunk } from "../../../store/reviews";
-import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
-import EditReviews from "../EditReview";
 import "./UsersReview.css";
 
 export default function UsersReviews() {
@@ -24,7 +22,7 @@ export default function UsersReviews() {
   const userReviews = useSelector((state) => state.review.userReviews);
   if (!sessionUser) return <Redirect to="/" />;
   if (!userReviews) return null;
-  
+
   return (
     <div className="userReview-container">
       <div className="review-container">
@@ -55,14 +53,6 @@ export default function UsersReviews() {
                       Your Review: {review.review}
                     </div>
                   </div>{" "}
-                  <div className="userSpots-buttons">
-                    <OpenModalMenuItem
-                      className="editBttn"
-                      itemText="Edit Your Review"
-                      onItemClick={EditReviews}
-                      modalComponent={<EditReviews setSubmit={setSubmit} />}
-                    />
-                  </div>
                   <div className="userReviewBttn">
                     <button
                       className="deleteReview"

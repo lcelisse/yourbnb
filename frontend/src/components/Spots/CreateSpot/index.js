@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
 import { useModal } from "../../../context/Modal";
 import { createSpotsThunk } from "../../../store/spots";
+import * as spotActions from '../../../store/spots'
 import "./CreateSpot.css";
 
-export default function CreateSpotForm({ setShowModal }) {
+export default function CreateSpotForm({ setSubmitted }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -31,7 +32,7 @@ export default function CreateSpotForm({ setShowModal }) {
     e.preventDefault();
 
     return dispatch(
-      createSpotsThunk({
+      spotActions.createSpotsThunk({
         name,
         description,
         previewImage,
@@ -44,15 +45,31 @@ export default function CreateSpotForm({ setShowModal }) {
         country,
       })
     )
-      .then((response) => {
+      .then(() => {
+        setSubmitted((oldReview) => !oldReview);
         closeModal();
-        history.push(`/spots/${response.id}`);
       })
-      .then(() => setShowModal(false))
+
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) setErrors(data.errors);
       });
+    // e.preventDefault();
+
+    // return dispatch(
+    //   createSpotsThunk({
+    //
+    //   })
+    // )
+    //   .then((response) => {
+    //     closeModal();
+    //     history.push(`/spots/${response.id}`);
+    //   })
+    //   .then(() => setShowModal(false))
+    //   .catch(async (res) => {
+    //     const data = await res.json();
+    //     if (data && data.errors) setErrors(data.errors);
+    //   });
   };
 
   return (

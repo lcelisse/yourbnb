@@ -38,11 +38,6 @@
   display: flex;
 }
 
-.img {
-  width: 30%;
-  border-radius: 16px;
-}
-
 .spot-desc {
   width: 60%;
   padding: 10px;
@@ -89,5 +84,8 @@
 }
 
 .pic {
-    border-radius: 16px;
+  border-radius: 16px;
+  width: 120%;
+  height: 100%;
+  object-fit: cover;
 }

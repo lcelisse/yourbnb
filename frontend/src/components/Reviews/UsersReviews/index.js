@@ -13,7 +13,8 @@ export default function UsersReviews() {
 
   const [submit, setSubmit] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
-
+  const spots = useSelector((state) => state.spot.userSpots);
+  console.log(spots)
   useEffect(() => {
     dispatch(getUserReviewsThunk());
     setSubmit(false);

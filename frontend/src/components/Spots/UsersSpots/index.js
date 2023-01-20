@@ -4,14 +4,13 @@ import { useHistory } from "react-router-dom";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import { deleteSpotsThunk } from "../../../store/spots";
 import { getUserSpotsThunk } from "../../../store/spots";
-import * as spotActions from "../../../store/spots";
 import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
 import EditForm from "../EditSpot";
 import "./UsersSpots.css";
+import none from "../SpotDetails/img/no.jpg";
 
 export default function UsersSpots() {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const [submitted, setSubmitted] = useState(false);
 
@@ -39,7 +38,11 @@ export default function UsersSpots() {
               <div className="eachSpot-container" key={spot.id}>
                 <div className="spot-info">
                   <div className="img">
-                    <img src={spot.previewImage} className="pic" />
+                    <img
+                      src={spot.previewImage ? spot.previewImage : none}
+                      alt={`${spot.name}`}
+                      className="pic"
+                    />
                   </div>
                   <div className="spot-desc">
                     <div className="spot-firstPart">

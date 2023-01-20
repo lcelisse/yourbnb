@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { useModal } from "../../../context/Modal";
-import { createSpotsThunk } from "../../../store/spots";
 import * as spotActions from "../../../store/spots";
 import "./CreateSpot.css";
 
-export default function CreateSpotForm({ setSubmitted }) {
+export default function CreateSpotForm() {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const { closeModal } = useModal();
 
@@ -21,8 +19,6 @@ export default function CreateSpotForm({ setSubmitted }) {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [country, setCountry] = useState("");
-  const [lat, setLat] = useState(1.0);
-  const [lng, setLng] = useState(2.0);
   const [previewImage, setPreviewImage] = useState("");
   const [errors, setErrors] = useState([]);
 
@@ -37,8 +33,6 @@ export default function CreateSpotForm({ setSubmitted }) {
         description,
         previewImage,
         price,
-        lat,
-        lng,
         address,
         city,
         state,
@@ -46,7 +40,6 @@ export default function CreateSpotForm({ setSubmitted }) {
       })
     )
       .then(() => {
-        setSubmitted((oldReview) => !oldReview);
         closeModal();
       })
 
@@ -54,22 +47,6 @@ export default function CreateSpotForm({ setSubmitted }) {
         const data = await res.json();
         if (data && data.errors) setErrors(data.errors);
       });
-    // e.preventDefault();
-
-    // return dispatch(
-    //   createSpotsThunk({
-    //
-    //   })
-    // )
-    //   .then((response) => {
-    //     closeModal();
-    //     history.push(`/spots/${response.id}`);
-    //   })
-    //   .then(() => setShowModal(false))
-    //   .catch(async (res) => {
-    //     const data = await res.json();
-    //     if (data && data.errors) setErrors(data.errors);
-    //   });
   };
 
   return (

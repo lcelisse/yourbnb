@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getSpotsThunk } from "../../../store/spots";
 import "./AllSpots.css";
+import none from "../SpotDetails/img/no.jpg";
 
 export default function AllSpots() {
   const spots = useSelector((state) => state.spot.allSpots);
@@ -31,7 +32,7 @@ export default function AllSpots() {
             <div className="previewImg">
               <img
                 className="spot-img"
-                src={spot.previewImage ? spot.previewImage.url : null}
+                src={spot.previewImage ? spot.previewImage.url : none}
                 alt={`${spot.name}`}
               />
             </div>

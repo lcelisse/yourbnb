@@ -6,10 +6,11 @@ import * as spotActions from "../../../store/spots";
 import "./EditSpot.css";
 import { useModal } from "../../../context/Modal";
 
-export default function EditForm({ setShowModal }) {
+export default function EditForm() {
   const sessionUser = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
   const { spotId } = useParams();
+  console.log(spotId)
   const history = useHistory();
   const { closeModal } = useModal;
 
@@ -20,8 +21,6 @@ export default function EditForm({ setShowModal }) {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [country, setCountry] = useState("");
-  const [lat, setLat] = useState("");
-  const [lng, setLng] = useState("");
   const [previewImage, setPreviewImage] = useState("");
   const [errors, setErrors] = useState([]);
 
@@ -35,8 +34,6 @@ export default function EditForm({ setShowModal }) {
       setState(res.state);
       setPrice(res.price);
       setPreviewImage(res.previewImage);
-      setLat(res.lat);
-      setLng(res.lng);
     });
   }, [dispatch, spotId]);
 
@@ -49,8 +46,6 @@ export default function EditForm({ setShowModal }) {
         description,
         previewImage,
         price,
-        lat,
-        lng,
         address,
         city,
         state,
@@ -70,7 +65,6 @@ export default function EditForm({ setShowModal }) {
         closeModal();
         history.push(`/spots/${response.id}`);
       })
-      .then(() => setShowModal(false))
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) setErrors(data.errors);
@@ -84,7 +78,7 @@ export default function EditForm({ setShowModal }) {
         <p className="red">Edit your bnb</p>
       </div>
       <div className="form">
-        <form className="createSpot" onSubmit={submit}>
+        <form className="createSpot">
           <input
             className="input1"
             type="text"
@@ -141,21 +135,13 @@ export default function EditForm({ setShowModal }) {
             placeholder="Description"
             required
           ></textarea>
-          <input
-            className="input-img"
-            type="text"
-            value={previewImage}
-            onChange={(e) => setPreviewImage(e.target.value)}
-            placeholder="Preview Image"
-            required
-          ></input>
           <ul className="errors">
             {errors.map((error, id) => (
               <li key={id}>{error}</li>
             ))}
           </ul>
         </form>
-        <button className="createBnb" type="submit">
+        <button className="createBnb" type="submit" onClick={submit}>
           Edit Your Spot
         </button>
       </div>

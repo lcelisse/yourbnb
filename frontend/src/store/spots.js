@@ -73,8 +73,6 @@ export const createSpotsThunk = (newSpot) => async (dispatch) => {
     city,
     state,
     country,
-    lat,
-    lng,
   } = newSpot;
   const response = await csrfFetch(`/api/spots`, {
     method: "POST",
@@ -87,8 +85,6 @@ export const createSpotsThunk = (newSpot) => async (dispatch) => {
       city,
       state,
       country,
-      lat,
-      lng,
     }),
   });
 

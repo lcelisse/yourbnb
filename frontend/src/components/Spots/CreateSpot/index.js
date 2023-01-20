@@ -8,8 +8,11 @@ import "./CreateSpot.css";
 export default function CreateSpotForm({ setShowModal }) {
   const dispatch = useDispatch();
   const history = useHistory();
+
   const { closeModal } = useModal();
+
   const sessionUser = useSelector((state) => state.session.user);
+
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
@@ -24,7 +27,7 @@ export default function CreateSpotForm({ setShowModal }) {
 
   if (!sessionUser) return <Redirect to={"/"} />;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     return dispatch(
@@ -42,15 +45,6 @@ export default function CreateSpotForm({ setShowModal }) {
       })
     )
       .then((response) => {
-        setName("");
-        setAddress("");
-        setCity("");
-        setCountry("");
-        setDescription("");
-        setState("");
-        setPrice("");
-        setPreviewImage("");
-
         closeModal();
         history.push(`/spots/${response.id}`);
       })

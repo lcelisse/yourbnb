@@ -8,9 +8,9 @@ import { useModal } from "../../../context/Modal";
 
 export default function EditForm() {
   const sessionUser = useSelector((state) => state.session.user);
+
   const dispatch = useDispatch();
   const { spotId } = useParams();
-  console.log(spotId)
   const history = useHistory();
   const { closeModal } = useModal;
 
@@ -21,7 +21,6 @@ export default function EditForm() {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [country, setCountry] = useState("");
-  const [previewImage, setPreviewImage] = useState("");
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
@@ -33,7 +32,6 @@ export default function EditForm() {
       setDescription(res.description);
       setState(res.state);
       setPrice(res.price);
-      setPreviewImage(res.previewImage);
     });
   }, [dispatch, spotId]);
 
@@ -44,7 +42,6 @@ export default function EditForm() {
       spotActions.editSpotsThunk({
         name,
         description,
-        previewImage,
         price,
         address,
         city,
@@ -60,7 +57,6 @@ export default function EditForm() {
         setDescription("");
         setState("");
         setPrice("");
-        setPreviewImage("");
 
         closeModal();
         history.push(`/spots/${response.id}`);

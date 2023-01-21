@@ -144,8 +144,6 @@ export const getUserSpotsThunk = () => async (dispatch) => {
     const spots = await response.json();
     dispatch(getUserSpots(spots));
     return spots;
-  } else {
-    throw response;
   }
 };
 

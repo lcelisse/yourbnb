@@ -14,7 +14,7 @@ export default function UsersReviews() {
   const [submit, setSubmit] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
   const spots = useSelector((state) => state.spot.userSpots);
-  console.log(spots)
+
   useEffect(() => {
     dispatch(getUserReviewsThunk());
     setSubmit(false);
@@ -32,6 +32,7 @@ export default function UsersReviews() {
         </div>
         <div className="spots-usrRev">
           {userReviews.Reviews.map((review) => {
+            console.log(userReviews)
             const image = review.Spot;
             return (
               <div className="eachReview" key={review.id}>

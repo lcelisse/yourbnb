@@ -77,7 +77,7 @@ module.exports = {
         },
         {
           userId: 5,
-          spotId: 14,
+          spotId: 11,
 
           review:
             "We had a great time at this Airbnb. The house was clean and comfortable, and the host was very responsive to our needs.",
@@ -133,7 +133,7 @@ module.exports = {
         },
         {
           userId: 1,
-          spotId: 5,
+          spotId: 3,
 
           review:
             "This was the perfect place for our family to stay while we explored the city. The house was clean and comfortable, and the host was very friendly.",
@@ -189,7 +189,7 @@ module.exports = {
         },
         {
           userId: 3,
-          spotId: 7,
+          spotId: 6,
 
           review:
             "The location of this Airbnb was perfect for our needs, and the host was very responsive and helpful.",

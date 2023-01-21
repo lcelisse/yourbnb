@@ -69,7 +69,7 @@ export const deleteReviewThunk = (deleteReview) => async (dispatch) => {
   }
 };
 export const getUserReviewsThunk = () => async (dispatch) => {
-  const response = await csrfFetch(`/api/reviews/current`);
+  const response = await csrfFetch(`/api/reviews/current`, {method: "GET"});
 
   if (response.ok) {
     const userReview = await response.json();

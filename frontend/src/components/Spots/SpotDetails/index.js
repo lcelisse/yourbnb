@@ -9,6 +9,8 @@ import none from "./img/no.jpg";
 import CreateReviewForm from "../../Reviews/CreateReview";
 import up from "./img/usr.png";
 import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
+import { getUserSpotsThunk } from "../../../store/spots";
+import { deleteSpotsThunk } from "../../../store/spots";
 
 export default function SpotDetails() {
   const dispatch = useDispatch();
@@ -26,6 +28,11 @@ export default function SpotDetails() {
   }, [dispatch, spotId, submitted]);
 
   useEffect(() => {
+    dispatch(getUserSpotsThunk());
+    setSubmitted(false);
+  }, [dispatch, setSubmitted]);
+
+  useEffect(() => {
     dispatch(getSpotReviewsThunk(spotId))
       .then((data) => setGetReviews(data))
       .then(() => setIsLoaded(true));
@@ -37,6 +44,7 @@ export default function SpotDetails() {
   let imgs = spot.SpotImages;
 
   let reviewClass;
+  let deleteButton;
 
   if (sessionUser) {
     spot.ownerId !== sessionUser.id
@@ -46,6 +54,12 @@ export default function SpotDetails() {
 
   if (!sessionUser) {
     reviewClass = "noUser";
+  }
+
+  if (sessionUser) {
+    spot.ownerId === sessionUser.id
+      ? (deleteButton = "seeReviewBttn")
+      : (deleteButton = "noReviewBttn");
   }
 
   return (
@@ -63,6 +77,18 @@ export default function SpotDetails() {
                 : "No Reviews Yet"}{" "}
               · {spot.numReviews} Reviews · {spot.city} , {spot.state} ,
               {spot.country}
+            </div>
+            <div className="delete-spot">
+              <button
+                className={deleteButton}
+                onClick={async () => {
+                  dispatch(getUserSpotsThunk())
+                    .then(dispatch(deleteSpotsThunk(spot.id)))
+                    .then(setSubmitted(!submitted));
+                }}
+              >
+                Delete This Spot
+              </button>
             </div>
           </div>
           <div className="img-container">

@@ -11,6 +11,7 @@ import up from "./img/usr.png";
 import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
 import { getUserSpotsThunk } from "../../../store/spots";
 import { deleteSpotsThunk } from "../../../store/spots";
+import EditForm from "../EditSpot";
 
 export default function SpotDetails() {
   const dispatch = useDispatch();
@@ -69,6 +70,14 @@ export default function SpotDetails() {
   return (
     <>
       <div className="spotDetail-body">
+        <div className={deleteButton}>
+          <OpenModalMenuItem
+            className="editBttn"
+            itemText="Edit Your Spot"
+            onItemClick={EditForm}
+            modalComponent={<EditForm />}
+          />
+        </div>
         <div className="notReview">
           <div className="top-info">
             <div className="spotName">
@@ -82,6 +91,7 @@ export default function SpotDetails() {
               · {spot.numReviews} Reviews · {spot.city} , {spot.state} ,
               {spot.country}
             </div>
+
             <div className="delete-spot">
               <button
                 className={deleteButton}

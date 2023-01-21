@@ -6,7 +6,6 @@ import Navigation from "./components/Navigation";
 import AllSpots from "./components/Spots/AllSpots";
 import SpotDetails from "./components/Spots/SpotDetails";
 
-import UsersReviews from "./components/Reviews/UsersReviews";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,10 +24,6 @@ function App() {
           </Route>
           <Route exact path={"/spots/:spotId"}>
             <SpotDetails />
-          </Route>
-
-          <Route exact path={"/my-reviews"}>
-            <UsersReviews />
           </Route>
         </Switch>
       </>

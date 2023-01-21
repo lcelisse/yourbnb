@@ -70,31 +70,31 @@ module.exports = {
           name: "Fall vibes",
           description:
             "A Mediterranean-style villa with terracotta tile floors, arched doorways, and a courtyard garden. The villa features a private pool, a pergola-covered terrace, and a large kitchen. ",
-          price: 199,
+          price: 299,
         },
         {
           ownerId: 2,
           address: "112 Lola St",
           city: "Los Angeles",
-          state: "California",
+          state: "Utah",
           country: "United States",
 
           name: "Fall vibes",
           description:
             "A modern, minimalist apartment with floor-to-ceiling windows, sleek furnishings, and a rooftop terrace. The apartment features a small balcony, a fireplace, and a large living room. ",
-          price: 199,
+          price: 345,
         },
         {
           ownerId: 3,
           address: "112 Lola St",
-          city: "Los Angeles",
-          state: "California",
+          city: "Miami",
+          state: "Florida",
           country: "United States",
 
           name: "Fall vibes",
           description:
             "A traditional Victorian home with a wraparound porch, a gazebo, and a large garden. The house features high ceilings, bay windows, and ornate moldings.",
-          price: 199,
+          price: 154,
         },
         {
           ownerId: 1,
@@ -106,7 +106,7 @@ module.exports = {
           name: "Fall vibes",
           description:
             "A mid-century modern home with clean lines, large windows, and a private courtyard. The house features a fireplace, a wet bar, and a large deck. ",
-          price: 199,
+          price: 129,
         },
 
         {
@@ -119,19 +119,19 @@ module.exports = {
           name: "Fall vibes",
           description:
             "A Mediterranean-style villa with a red-tiled roof, a large courtyard, and a private pool. The villa features a fireplace, a large living room, and a gourmet kitchen.",
-          price: 199,
+          price: 239,
         },
         {
           ownerId: 3,
           address: "112 Lola St",
-          city: "Los Angeles",
-          state: "California",
+          city: "Miami",
+          state: "Florida",
           country: "United States",
 
           name: "Fall vibes",
           description:
             "A spacious ranch-style home with a wraparound porch, a large garden, and a private pool. The house features a fireplace, a large living room, and a large kitchen. ",
-          price: 199,
+          price: 329,
         },
         {
           ownerId: 1,
@@ -143,38 +143,38 @@ module.exports = {
           name: "Fall vibes",
           description:
             "A rustic log cabin with a large deck overlooking a secluded mountain valley. The cabin features a fireplace, a hot tub, and comfortable furnishings.",
-          price: 199,
+          price: 299,
         },
         {
           ownerId: 5,
           address: "112 Lola St",
-          city: "Los Angeles",
-          state: "California",
+          city: "Houston",
+          state: "Texas",
           country: "United States",
 
-          name: "Fall vibes",
+          name: "Most Comfortable Home",
           description:
             "A traditional Victorian home with a wraparound porch, a gazebo, and a large garden. The house features high ceilings, bay windows, and ornate moldings. ",
-          price: 199,
+          price: 129,
         },
 
         {
           ownerId: 2,
           address: "112 Lola St",
-          city: "Los Angeles",
-          state: "California",
+          city: "Tucson",
+          state: "Arizona",
           country: "United States",
 
           name: "Fall vibes",
           description:
             "A modern, minimalist apartment with floor-to-ceiling windows, sleek furnishings, and a rooftop terrace. The apartment features a small balcony, a fireplace, and a large living room. ",
-          price: 199,
+          price: 319,
         },
         {
           ownerId: 5,
           address: "112 Lola St",
-          city: "Los Angeles",
-          state: "California",
+          city: "Brooklyn",
+          state: "New York",
           country: "United States",
 
           name: "Fall vibes",
@@ -185,11 +185,11 @@ module.exports = {
         {
           ownerId: 4,
           address: "112 Lola St",
-          city: "Los Angeles",
-          state: "California",
+          city: "Miami",
+          state: "Florida",
           country: "United States",
 
-          name: "Fall vibes",
+          name: "Cozy Home",
           description:
             "A charming farmhouse with a wraparound porch, surrounded by lush green fields and a red barn. The house features high ceilings, large windows, and a country-style kitchen.",
           price: 199,

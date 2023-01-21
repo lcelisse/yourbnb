@@ -33,7 +33,7 @@ module.exports = {
 
           review:
             "We loved our stay at this Airbnb. The place was spotless and the location was perfect for our visit to the city.",
-          stars: 1,
+          stars: 5,
         },
         {
           userId: 3,
@@ -57,7 +57,7 @@ module.exports = {
 
           review:
             "We had an amazing time at this Airbnb. The house was beautiful and the host was very welcoming and accommodating.",
-          stars: 4,
+          stars: 5,
         },
         {
           userId: 4,
@@ -65,7 +65,7 @@ module.exports = {
 
           review:
             "This was the perfect place for our family to stay while we explored the city. The house was clean and comfortable, and the host was very friendly.",
-          stars: 4,
+          stars: 3,
         },
         {
           userId: 4,
@@ -73,7 +73,7 @@ module.exports = {
 
           review:
             "Our stay at this Airbnb was fantastic. The house was beautiful and the location was perfect for our needs.",
-          stars: 4,
+          stars: 3,
         },
         {
           userId: 5,
@@ -97,7 +97,7 @@ module.exports = {
 
           review:
             "We had a wonderful time at this Airbnb. The location was perfect, and the host was very friendly and accommodating.",
-          stars: 4,
+          stars: 3,
         },
         {
           userId: 5,
@@ -105,7 +105,7 @@ module.exports = {
 
           review:
             "We loved our stay at this Airbnb. The place was spotless and the location was perfect for our visit to the city.",
-          stars: 4,
+          stars: 3,
         },
         {
           userId: 3,
@@ -113,7 +113,7 @@ module.exports = {
 
           review:
             "This was the perfect getaway spot for our family. The house was beautifully decorated, and had everything we needed for a comfortable stay.",
-          stars: 4,
+          stars: 5,
         },
         {
           userId: 4,
@@ -121,7 +121,7 @@ module.exports = {
 
           review:
             "The location of this Airbnb was perfect for our needs, and the host was very responsive and helpful.",
-          stars: 4,
+          stars: 5,
         },
         {
           userId: 3,
@@ -137,7 +137,7 @@ module.exports = {
 
           review:
             "This was the perfect place for our family to stay while we explored the city. The house was clean and comfortable, and the host was very friendly.",
-          stars: 4,
+          stars: 3,
         },
         {
           userId: 1,
@@ -161,7 +161,7 @@ module.exports = {
 
           review:
             "This was the perfect place for our group of friends to stay for a weekend getaway. The house was spacious and had everything we needed.",
-          stars: 4,
+          stars: 2,
         },
         {
           userId: 2,
@@ -169,7 +169,7 @@ module.exports = {
 
           review:
             "We had a wonderful time at this Airbnb. The location was perfect, and the host was very friendly and accommodating.",
-          stars: 4,
+          stars: 5,
         },
         {
           userId: 2,
@@ -177,7 +177,7 @@ module.exports = {
 
           review:
             "We loved our stay at this Airbnb. The place was spotless and the location was perfect for our visit to the city.",
-          stars: 4,
+          stars: 1,
         },
         {
           userId: 3,
@@ -185,7 +185,7 @@ module.exports = {
 
           review:
             "This was the perfect getaway spot for our family. The house was beautifully decorated, and had everything we needed for a comfortable stay.",
-          stars: 4,
+          stars: 2,
         },
         {
           userId: 3,
@@ -193,7 +193,7 @@ module.exports = {
 
           review:
             "The location of this Airbnb was perfect for our needs, and the host was very responsive and helpful.",
-          stars: 4,
+          stars: 5,
         },
         {
           userId: 5,
@@ -201,7 +201,7 @@ module.exports = {
 
           review:
             "We had an amazing time at this Airbnb. The house was beautiful and the host was very welcoming and accommodating.",
-          stars: 4,
+          stars: 1,
         },
         {
           userId: 1,

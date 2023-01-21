@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { useHistory, useParams } from "react-router-dom";
 import * as spotActions from "../../../store/spots";
+import { editSpotsThunk } from "../../../store/spots";
 import "./EditSpot.css";
 import { useModal } from "../../../context/Modal";
 
 export default function EditForm() {
   const sessionUser = useSelector((state) => state.session.user);
-
+  const spot = useSelector((state) => state.spot.spotDetails);
   const dispatch = useDispatch();
   const { spotId } = useParams();
   const history = useHistory();
@@ -23,44 +24,18 @@ export default function EditForm() {
   const [country, setCountry] = useState("");
   const [errors, setErrors] = useState([]);
 
-  useEffect(() => {
-    dispatch(spotActions.getSpotDetailsThunk(spotId)).then((res) => {
-      setName(res.name);
-      setAddress(res.address);
-      setCity(res.city);
-      setCountry(res.country);
-      setDescription(res.description);
-      setState(res.state);
-      setPrice(res.price);
-    });
-  }, [dispatch, spotId]);
-
   const submit = (e) => {
     e.preventDefault();
+    setErrors([]);
 
-    return dispatch(
-      spotActions.editSpotsThunk({
-        name,
-        description,
-        price,
-        address,
-        city,
-        state,
-        country,
-      })
-    )
-      .then((response) => {
-        setName("");
-        setAddress("");
-        setCity("");
-        setCountry("");
-        setDescription("");
-        setState("");
-        setPrice("");
+    const newSpot = { name, description, price, address, city, state, country };
+    const { id, Owner, numReviews, avgStarRating, SpotImages } = spot;
 
-        closeModal();
-        history.push(`/spots/${response.id}`);
-      })
+    const spotDet = { id, Owner, numReviews, avgStarRating, SpotImages };
+
+    return dispatch(editSpotsThunk(newSpot, spotDet))
+      .then(() => history.push(`/spots/${id}`))
+      .then(closeModal)
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) setErrors(data.errors);

@@ -110,44 +110,6 @@ router.get("/", async (req, res, next) => {
 
   let errs = {};
 
-  if (req.query.maxLat) {
-    if (+req.query.maxLat) {
-      errs.maxLat = "Maximum latitude is invalid";
-    } else {
-      query.where.lat = {
-        [Op.lte]: req.query.maxLat,
-      };
-    }
-  }
-  if (req.query.minLat) {
-    if (+req.query.minLat) {
-      errs.minLat = "Minimum latitude is invalid";
-    } else {
-      query.where.lat = {
-        [Op.gte]: req.query.minLat,
-      };
-    }
-  }
-
-  if (req.query.maxLng) {
-    if (+req.query.maxLng) {
-      errs.maxLng = "Maximum longitude is invalid";
-    } else {
-      query.where.lng = {
-        [Op.lte]: req.query.maxLng,
-      };
-    }
-  }
-
-  if (req.query.minLng) {
-    if (+req.query.minLng) {
-      errs.minLng = "Minimum longitude is invalid";
-    } else {
-      query.where.lng = {
-        [Op.gte]: req.query.minLng,
-      };
-    }
-  }
 
   if (req.query.maxPrice < 0) {
     if (+req.query.maxPrice) {

@@ -53,8 +53,6 @@ router.get("/current", requireAuth, async (req, res) => {
         "city",
         "state",
         "country",
-        "lat",
-        "lng",
         "name",
         "price",
       ],

@@ -110,7 +110,6 @@ router.get("/", async (req, res, next) => {
 
   let errs = {};
 
-
   if (req.query.maxPrice < 0) {
     if (+req.query.maxPrice) {
       errs.maxPrice = "Maximum price must be greater than or equal to 0";

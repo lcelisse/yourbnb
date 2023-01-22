@@ -86,9 +86,8 @@ export const createSpotsThunk = (newSpot, previewImage) => async (dispatch) => {
 
     if (imageResponse.ok) {
       const image = await imageResponse.json();
-      console.log(image);
       createdSpot.previewImage = image.url;
-      
+
       dispatch(createSpots(createdSpot));
 
       return createdSpot;
@@ -152,7 +151,6 @@ const spotReducer = (state = initialState, action) => {
       return newState;
     case CREATE:
       const createSpot = action.newSpot;
-      console.log({createSpot})
       return createSpot;
 
     case EDIT:

@@ -98,7 +98,7 @@ export default function SpotDetails() {
                   dispatch(getUserSpotsThunk())
                     .then(dispatch(deleteSpotsThunk(spot.id)))
                     .then(setSubmitted(!submitted))
-                    .then(history.pushState("/"));
+                    .then(history.push("/"));
                 }}
               >
                 Delete This Spot

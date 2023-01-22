@@ -34,8 +34,11 @@ export default function EditForm() {
     const spotDet = { id, Owner, numReviews, avgStarRating, SpotImages };
 
     return dispatch(editSpotsThunk(newSpot, spotDet))
-      .then(() => history.push(`/spots/${id}`))
-      .then(closeModal)
+      .then(() => {
+        closeModal();
+        history.push(`/spots/${id}`);
+      })
+
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) setErrors(data.errors);

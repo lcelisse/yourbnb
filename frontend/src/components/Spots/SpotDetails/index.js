@@ -46,6 +46,7 @@ export default function SpotDetails() {
 
   let reviewClass;
   let deleteButton;
+  let editButton;
 
   if (sessionUser) {
     spot.ownerId !== sessionUser.id
@@ -59,6 +60,7 @@ export default function SpotDetails() {
 
   if (!sessionUser) {
     deleteButton = "noUser";
+    editButton = "noEdit";
   }
 
   if (sessionUser) {
@@ -67,21 +69,21 @@ export default function SpotDetails() {
       : (deleteButton = "noReviewBttn");
   }
 
+  if (sessionUser) {
+    spot.ownerId === sessionUser.id
+      ? (editButton = "seeEdit")
+      : (editButton = "noEdit");
+  }
+
   return (
     <>
       <div className="spotDetail-body">
-        <div className={deleteButton}>
-          <OpenModalMenuItem
-            className="editBttn"
-            itemText="Edit Your Spot"
-            modalComponent={<EditForm />}
-          />
-        </div>
         <div className="notReview">
           <div className="top-info">
             <div className="spotName">
               <h1>{spot.name}</h1>
             </div>
+
             <div className="spotInfo">
               ★
               {Number(spot.avgStarRating)
@@ -89,9 +91,13 @@ export default function SpotDetails() {
                 : "No Reviews Yet"}{" "}
               · {spot.numReviews} Reviews · {spot.city} , {spot.state} ,
               {spot.country}
-            </div>
-
-            <div className="delete-spot">
+              <div className={editButton}>
+                <OpenModalMenuItem
+                  className="editBttn"
+                  itemText={<i className="fas fa-edit"></i>}
+                  modalComponent={<EditForm />}
+                />
+              </div>
               <button
                 className={deleteButton}
                 onClick={async () => {
@@ -101,7 +107,7 @@ export default function SpotDetails() {
                     .then(history.push("/"));
                 }}
               >
-                Delete This Spot
+                <i className="fa fa-trash"></i>
               </button>
             </div>
           </div>

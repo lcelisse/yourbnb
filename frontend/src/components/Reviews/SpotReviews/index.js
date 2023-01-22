@@ -36,15 +36,16 @@ export default function SpotReviews({ allReviews }) {
               <p>Stars : ★{review.stars}</p>
               <div className="desc">{review.review}</div>
               {review.userId === sessionUser.id && (
-                <div className="delete-Rev">
+                <div>
                   <button
+                    className="delete-Rev"
                     onClick={async () => {
                       dispatch(getUserReviewsThunk())
                         .then(dispatch(deleteReviewThunk(review.id)))
                         .then(setSubmitted(!submitted));
                     }}
                   >
-                    Delete Review
+                    <i classname="fa fa-trash"></i>
                   </button>
                 </div>
               )}

@@ -10,8 +10,7 @@
 
 .login-button {
   height: 35px;
-  width: 200px;
-  margin-left: 30px;
+
   margin-bottom: 10px;
   border: none;
   border-radius: 16px;
@@ -31,8 +30,7 @@
 
 .demoLogin {
   height: 35px;
-  width: 200px;
-  margin-left: 30px;
+
   border: none;
   border-radius: 16px;
   background-color: rgb(255, 56, 92);

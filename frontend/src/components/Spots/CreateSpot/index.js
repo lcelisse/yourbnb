@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { useModal } from "../../../context/Modal";
 import * as spotActions from "../../../store/spots";
 import "./CreateSpot.css";
 
 export default function CreateSpotForm() {
   const dispatch = useDispatch();
-
+  const history = useHistory();
   const { closeModal } = useModal();
 
   const sessionUser = useSelector((state) => state.session.user);
@@ -28,19 +28,25 @@ export default function CreateSpotForm() {
     e.preventDefault();
 
     return dispatch(
-      spotActions.createSpotsThunk({
-        name,
-        description,
-        previewImage,
-        price,
-        address,
-        city,
-        state,
-        country,
-      })
+      spotActions.createSpotsThunk(
+        {
+          name,
+          description,
+          price,
+          address,
+          city,
+          state,
+          country,
+        },
+        {
+          url: previewImage,
+          preview: true,
+        }
+      )
     )
-      .then(() => {
+      .then((spot) => {
         closeModal();
+        history.push(`/spots/${spot.id}`);
       })
 
       .catch(async (res) => {
@@ -114,7 +120,7 @@ export default function CreateSpotForm() {
           ></textarea>
           <input
             className="input-img"
-            type="text"
+            type="url"
             value={previewImage}
             onChange={(e) => setPreviewImage(e.target.value)}
             placeholder="Preview Image"

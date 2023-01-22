@@ -64,24 +64,33 @@ export const deleteSpotsThunk = (deleteSpot) => async (dispatch) => {
 };
 
 export const createSpotsThunk = (newSpot, previewImage) => async (dispatch) => {
+  // console.log(previewImage.url)
   const response = await csrfFetch(`/api/spots`, {
     method: "POST",
     body: JSON.stringify(newSpot),
   });
 
-  if (Response.ok) {
+  if (response.ok) {
     const createdSpot = await response.json();
-    const image = await csrfFetch(`/api/spots/${createdSpot.id}/images`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        url: previewImage,
-        preview: true,
-      }),
-    });
-    if (image.ok) {
+    const imageResponse = await csrfFetch(
+      `/api/spots/${createdSpot.id}/images`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          url: previewImage.url,
+          preview: true,
+        }),
+      }
+    );
+
+    if (imageResponse.ok) {
+      const image = await imageResponse.json();
+      console.log(image);
       createdSpot.previewImage = image.url;
+      
       dispatch(createSpots(createdSpot));
+
       return createdSpot;
     }
   }
@@ -143,7 +152,9 @@ const spotReducer = (state = initialState, action) => {
       return newState;
     case CREATE:
       const createSpot = action.newSpot;
+      console.log({createSpot})
       return createSpot;
+
     case EDIT:
       const editedSpot = action.editSpot;
       newState[editedSpot.id] = editedSpot;

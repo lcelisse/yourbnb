@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Redirect, useHistory, useParams } from "react-router-dom";
 import { getSpotDetailsThunk } from "../../../store/spots";
 import { getSpotReviewsThunk } from "../../../store/reviews";
 import "./SpotDetails.css";
@@ -16,7 +16,7 @@ import EditForm from "../EditSpot";
 export default function SpotDetails() {
   const dispatch = useDispatch();
   const { spotId } = useParams();
-
+  const history = useHistory();
   const [submitted, setSubmitted] = useState(false);
   const [getReviews, setGetReviews] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
@@ -74,7 +74,6 @@ export default function SpotDetails() {
           <OpenModalMenuItem
             className="editBttn"
             itemText="Edit Your Spot"
-            onItemClick={EditForm}
             modalComponent={<EditForm />}
           />
         </div>
@@ -98,7 +97,8 @@ export default function SpotDetails() {
                 onClick={async () => {
                   dispatch(getUserSpotsThunk())
                     .then(dispatch(deleteSpotsThunk(spot.id)))
-                    .then(setSubmitted(!submitted));
+                    .then(setSubmitted(!submitted))
+                    .then(history.pushState("/"));
                 }}
               >
                 Delete This Spot
@@ -115,30 +115,30 @@ export default function SpotDetails() {
             </div>
             <div className="img2">
               {imgs[1] ? (
-                <img src={imgs[1].url} alt="preview" className="image1" />
+                <img src={imgs[1].url} alt="preview" className="image2" />
               ) : (
-                <img src={none} alt="preview" className="image1" />
+                <img src={none} alt="preview" className="image2" />
               )}
             </div>
             <div className="img3">
               {imgs[2] ? (
-                <img src={imgs[2].url} alt="preview" className="image1" />
+                <img src={imgs[2].url} alt="preview" className="image3" />
               ) : (
-                <img src={none} alt="preview" className="image1" />
+                <img src={none} alt="preview" className="image3" />
               )}
             </div>
             <div className="img4">
               {imgs[3] ? (
-                <img src={imgs[3].url} alt="preview" className="image1" />
+                <img src={imgs[3].url} alt="preview" className="image4" />
               ) : (
-                <img src={none} alt="preview" className="image1" />
+                <img src={none} alt="preview" className="image4" />
               )}
             </div>
             <div className="img5">
               {imgs[4] ? (
-                <img src={imgs[4].url} alt="preview" className="image1" />
+                <img src={imgs[4].url} alt="preview" className="image5" />
               ) : (
-                <img src={none} alt="preview" className="image1" />
+                <img src={none} alt="preview" className="image5" />
               )}
             </div>
           </div>

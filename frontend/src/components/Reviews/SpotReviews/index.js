@@ -22,20 +22,6 @@ export default function SpotReviews({ allReviews }) {
     setSubmitted(false);
   }, [dispatch, setSubmitted]);
 
-  let deleteReview;
-
-  if (!sessionUser) {
-    deleteReview = "noUser";
-  }
-
-  if (sessionUser) {
-    reviews.map((review) =>
-      review.id !== sessionUser.id
-        ? (deleteReview = "ReviewBttn")
-        : (deleteReview = "noReview")
-    );
-  }
-
   if (!allReviews) return null;
   return (
     <div>
@@ -49,18 +35,19 @@ export default function SpotReviews({ allReviews }) {
               <h3 className="review-user">{review.User.firstName}</h3>
               <p>Stars : ★{review.stars}</p>
               <div className="desc">{review.review}</div>
-              <div className="delete-Rev">
-                <button
-                  className={deleteReview}
-                  onClick={async () => {
-                    dispatch(getUserReviewsThunk())
-                      .then(dispatch(deleteReviewThunk(review.id)))
-                      .then(setSubmitted(!submitted));
-                  }}
-                >
-                  Delete Review
-                </button>
-              </div>
+              {review.userId === sessionUser.id && (
+                <div className="delete-Rev">
+                  <button
+                    onClick={async () => {
+                      dispatch(getUserReviewsThunk())
+                        .then(dispatch(deleteReviewThunk(review.id)))
+                        .then(setSubmitted(!submitted));
+                    }}
+                  >
+                    Delete Review
+                  </button>
+                </div>
+              )}
             </div>
           );
         })}

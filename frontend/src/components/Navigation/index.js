@@ -19,8 +19,8 @@ function Navigation({ isLoaded }) {
       <div className="nav">
         <div className="topLeft">
           <NavLink exact to="/">
-            <img className="logo-img" src={logo} />
-            <img className="logo-img1" src={bnb} />
+            <img className="logo-img" src={logo} alt="logo" />
+            <img className="logo-img1" src={bnb} alt="logo" />
           </NavLink>
         </div>
 
@@ -37,7 +37,7 @@ function Navigation({ isLoaded }) {
               </div>
             ) : (
               <div>
-                <div>
+                <div className="bnbButton">
                   <OpenModalMenuItem
                     className="bnbButton"
                     itemText="bnb your home"

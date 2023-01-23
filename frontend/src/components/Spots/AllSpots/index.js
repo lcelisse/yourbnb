@@ -43,7 +43,7 @@ export default function AllSpots() {
                   ★
                   {Number(spot.avgRating)
                     ? Number(spot.avgRating).toFixed(1)
-                    : "No Reviews Yet"}
+                    : "0"}
                 </span>
               </p>
 

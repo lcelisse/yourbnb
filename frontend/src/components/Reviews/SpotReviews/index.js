@@ -1,28 +1,20 @@
-import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { getUserReviewsThunk } from "../../../store/reviews";
+import { getSpotReviewsThunk } from "../../../store/reviews";
 import { deleteReviewThunk } from "../../../store/reviews";
+import { getSpotDetailsThunk } from "../../../store/spots";
 import usr from ".././../Spots/SpotDetails/img/usr.png";
 import "./SpotReviews.css";
 
-export default function SpotReviews({ allReviews }) {
-  const [submitted, setSubmitted] = useState(false);
-
+export default function SpotReviews() {
   const dispatch = useDispatch();
 
   const sessionUser = useSelector((state) => state.session.user);
+  const reviews = useSelector((state) => state.review.allReviews);
+  const spot = useSelector((state) => state.spot.spotDetails);
 
-  const reviews = Object.values(allReviews);
+  if (!reviews || !reviews.length) return null;
 
-  // const review = useSelector((state) => state.reviews.userReviews)
-
-  useEffect(() => {
-    dispatch(getUserReviewsThunk());
-    setSubmitted(false);
-  }, [dispatch, setSubmitted]);
-
-  if (!allReviews) return null;
   return (
     <div>
       <ul>
@@ -30,25 +22,31 @@ export default function SpotReviews({ allReviews }) {
           return (
             <div className="container" key={review.id}>
               <div className="pfp">
-                <img src={usr} className="pf" />
+                <img src={usr} className="pf" alt="user" />
               </div>
               <h3 className="review-user">{review.User.firstName}</h3>
               <p>Stars : ★{review.stars}</p>
               <div className="desc">{review.review}</div>
-              {review.userId === sessionUser.id && (
-                <div>
-                  <button
-                    className="delete-Rev"
-                    onClick={async () => {
-                      dispatch(getUserReviewsThunk())
-                        .then(dispatch(deleteReviewThunk(review.id)))
-                        .then(setSubmitted(!submitted));
-                    }}
-                  >
-                    <i classname="fa fa-trash"></i>
-                  </button>
-                </div>
-              )}
+              <div className="delete-Rev">
+                <button
+                  className={
+                    sessionUser
+                      ? review.userId === sessionUser.id
+                        ? "ReviewBttn"
+                        : "noReview"
+                      : review.userId === sessionUser
+                      ? "ReviewBttn"
+                      : "noReview"
+                  }
+                  onClick={async () => {
+                    await dispatch(deleteReviewThunk(review.id))
+                      .then(() => dispatch(getSpotDetailsThunk(spot.id)))
+                      .then(() => dispatch(getSpotReviewsThunk(spot.id)));
+                  }}
+                >
+                  <i className="fa fa-trash"></i>
+                </button>
+              </div>
             </div>
           );
         })}

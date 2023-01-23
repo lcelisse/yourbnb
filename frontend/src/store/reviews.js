@@ -56,7 +56,7 @@ export const createReviewsThunk = (review, spotId) => async (dispatch) => {
   if (response.ok) {
     const createdReview = await response.json();
     dispatch(createReviews(createdReview, spotId));
-    return response;
+    return createdReview;
   }
 };
 export const deleteReviewThunk = (deleteReview) => async (dispatch) => {
@@ -65,11 +65,13 @@ export const deleteReviewThunk = (deleteReview) => async (dispatch) => {
   });
 
   if (response.ok) {
-    dispatch(deleteReview(deleteReviews));
+    const deleted = await response.json();
+    dispatch(deleteReviews(deleteReview));
+    return deleted;
   }
 };
 export const getUserReviewsThunk = () => async (dispatch) => {
-  const response = await csrfFetch(`/api/reviews/current`, {method: "GET"});
+  const response = await csrfFetch(`/api/reviews/current`, { method: "GET" });
 
   if (response.ok) {
     const userReview = await response.json();
@@ -84,17 +86,18 @@ const reviewsReducer = (state = initialState, action) => {
   let newState = { ...state };
   switch (action.type) {
     case GET:
-      const reviews = {};
       const allReviews = action.reviews.Reviews;
-      allReviews.forEach((eachReview) => (reviews[eachReview.id] = eachReview));
-      newState["allReviews"] = { ...allReviews };
+
+      newState["allReviews"] = [...allReviews];
       return newState;
     case CREATE:
       const createdReview = action.review;
       return createdReview;
     case DELETE:
       const deletedReview = action.deleteReview;
-      delete newState.allReviews[deletedReview];
+      newState.allReviews = state.allReviews.filter(
+        (review) => review.id === deletedReview
+      );
       return newState;
     case USER_REVIEWS:
       newState["userReviews"] = action.userReviews;

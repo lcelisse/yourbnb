@@ -1,31 +1,21 @@
 import { useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useModal } from "../../../context/Modal";
-import { createReviewsThunk } from "../../../store/reviews";
+import { getSpotReviewsThunk } from "../../../store/reviews";
+
 import "./CreateReviewForm.css";
 
-export default function CreateReviewForm({ setSubmitted, spotId }) {
+export default function CreateReviewForm({ spotId, createNewReview }) {
   const dispatch = useDispatch();
-  const closeModal = useModal();
-
   const [review, setReview] = useState("");
-  const [stars, setStars] = useState("");
+
   const [errors, setErrors] = useState([]);
 
-  const submit = async (e) => {
-    e.preventDefault();
+  const [stars, setStars] = useState("");
 
-    return dispatch(createReviewsThunk({ review, stars }, spotId))
-      .then(() => {
-        setSubmitted((oldReview) => !oldReview);
-        closeModal();
-      })
-
-      .catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) setErrors(data.errors);
-      });
-  };
+  useEffect(() => {
+    dispatch(getSpotReviewsThunk(spotId));
+  }, [dispatch, spotId]);
 
   return (
     <div className="createReview-container">
@@ -33,7 +23,7 @@ export default function CreateReviewForm({ setSubmitted, spotId }) {
         <p>Create a Review</p>
       </div>
       <div className="form">
-        <form className="createReview-form" onSubmit={submit}>
+        <form className="createReview-form">
           <textarea
             className="review-desc"
             value={review}
@@ -57,7 +47,17 @@ export default function CreateReviewForm({ setSubmitted, spotId }) {
             ))}
           </ul>
 
-          <button className="reviewBttn" type="submit">
+          <button
+            className="reviewBttn"
+            type="submit"
+            onClick={async (e) => {
+              e.preventDefault();
+              const res = await createNewReview(e, review, stars);
+              if (res && res.errors && res.errors.length) {
+                setErrors(errors);
+              }
+            }}
+          >
             Create a Review
           </button>
         </form>

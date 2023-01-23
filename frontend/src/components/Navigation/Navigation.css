@@ -25,14 +25,15 @@ ul {
 }
 
 .bnbButton {
-  list-style: none;
-  text-align: center;
-  justify-content: center;
+  font-size: 14px;
   cursor: pointer;
-  width: 150px;
+  width: 140px;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  border-radius: 15px;
+
+  box-shadow: 0.5rem 0 0.99rem rgb(172, 172, 172);
+  border-radius: 7px;
+  margin-top: 14px;
 }
 
 .profile {
@@ -49,15 +50,14 @@ ul {
 }
 
 .menu {
-  align-items: center;
   border-radius: 5%;
   display: flex;
   flex-direction: column;
-  padding: 0;
+
   position: absolute;
   right: -1px;
   background-color: white;
-  width: 15%;
+  width: 10%;
 }
 
 .topLeft {
@@ -90,7 +90,6 @@ ul {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   padding: 5%;
-
 }
 
 .signUp {
@@ -99,7 +98,6 @@ ul {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   padding: 5%;
-
 }
 
 .create {
@@ -118,18 +116,9 @@ ul {
   padding: 0;
   position: absolute;
   right: 1px;
-  height: 13%;
+  height: 9%;
   width: 15;
   background-color: white;
-}
-
-.userSpots-button {
-  text-align: left;
-  border: none;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  padding: 5%;
-
 }
 
 .userLogout-button {
@@ -138,13 +127,9 @@ ul {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   padding: 5%;
-
+  margin-bottom: 5px;
 }
 
-.userReviews-button {
-  text-align: left;
-  border: none;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  padding: 5%;
+button {
+  background-color: #fff;
 }

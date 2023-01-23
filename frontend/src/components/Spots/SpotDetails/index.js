@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useHistory, useParams } from "react-router-dom";
-import { getSpotDetailsThunk } from "../../../store/spots";
+import { useHistory, useParams } from "react-router-dom";
+import { getSpotDetailsThunk, getSpotsThunk } from "../../../store/spots";
 import { getSpotReviewsThunk } from "../../../store/reviews";
+
 import "./SpotDetails.css";
 import SpotReviews from "../../Reviews/SpotReviews";
 import none from "./img/no.jpg";
 import CreateReviewForm from "../../Reviews/CreateReview";
 import up from "./img/usr.png";
 import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
-import { getUserSpotsThunk } from "../../../store/spots";
+import { useModal } from "../../../context/Modal";
+
 import { deleteSpotsThunk } from "../../../store/spots";
+import { createReviewsThunk } from "../../../store/reviews";
 import EditForm from "../EditSpot";
 
 export default function SpotDetails() {
@@ -18,26 +21,23 @@ export default function SpotDetails() {
   const { spotId } = useParams();
   const history = useHistory();
   const [submitted, setSubmitted] = useState(false);
-  const [getReviews, setGetReviews] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
+  const { closeModal } = useModal();
 
   const spot = useSelector((state) => state.spot.spotDetails);
 
   useEffect(() => {
-    dispatch(getSpotDetailsThunk(spotId));
+    dispatch(getSpotDetailsThunk(spotId)).then(() => setIsLoaded(true));
+  }, [dispatch, spotId]);
+
+  useEffect(() => {
+    dispatch(getSpotReviewsThunk(spotId)).then(() => setIsLoaded(true));
   }, [dispatch, spotId, submitted]);
 
   useEffect(() => {
-    dispatch(getUserSpotsThunk());
-    setSubmitted(false);
-  }, [dispatch, setSubmitted]);
-
-  useEffect(() => {
-    dispatch(getSpotReviewsThunk(spotId))
-      .then((data) => setGetReviews(data))
-      .then(() => setIsLoaded(true));
-  }, [dispatch, spotId, submitted]);
+    dispatch(getSpotsThunk());
+  }, [dispatch]);
 
   if (!spot) return null;
   if (!isLoaded) return null;
@@ -75,6 +75,33 @@ export default function SpotDetails() {
       : (editButton = "noEdit");
   }
 
+  const createNewReview = async (e, review, stars) => {
+    e.preventDefault();
+    let errors = [];
+
+    await dispatch(createReviewsThunk({ review, stars }, spotId)).catch(
+      async (res) => {
+        const data = await res.json();
+
+        if (data && data.errors) {
+          errors = data.errors;
+        }
+      }
+    );
+
+    await dispatch(getSpotDetailsThunk(spotId)).then(() =>
+      dispatch(getSpotReviewsThunk(spotId))
+    );
+
+    setIsLoaded(true);
+    if (!errors.length) {
+      closeModal();
+      return { success: true };
+    } else {
+      return { errors };
+    }
+  };
+
   return (
     <>
       <div className="spotDetail-body">
@@ -101,9 +128,8 @@ export default function SpotDetails() {
               <button
                 className={deleteButton}
                 onClick={async () => {
-                  dispatch(getUserSpotsThunk())
-                    .then(dispatch(deleteSpotsThunk(spot.id)))
-                    .then(setSubmitted(!submitted))
+                  await dispatch(deleteSpotsThunk(spot.id))
+                    .then(() => dispatch(getSpotsThunk()))
                     .then(history.push("/"));
                 }}
               >
@@ -153,7 +179,7 @@ export default function SpotDetails() {
               <div className="hosted">
                 <h1 className="hosting">
                   {spot.name} hosted by {spot.Owner.firstName}{" "}
-                  <img src={up} className="userImg" />
+                  <img src={up} className="userImg" alt="user" />
                 </h1>
 
                 <span className="hostingInfo">
@@ -229,15 +255,15 @@ export default function SpotDetails() {
                   modalComponent={
                     <CreateReviewForm
                       spotId={spotId}
-                      submitted={setSubmitted}
+                      createNewReview={createNewReview}
                     />
                   }
                 />
               </div>
             </div>
-
-            <SpotReviews allReviews={getReviews.Reviews} />
           </div>
+
+          <SpotReviews />
         </div>
       </div>
     </>

@@ -44,13 +44,6 @@ const getSpotDetails = (spot) => {
   };
 };
 
-const getUserSpots = (userSpots) => {
-  return {
-    type: USER_SPOTS,
-    userSpots,
-  };
-};
-
 //THUNKS
 
 export const deleteSpotsThunk = (deleteSpot) => async (dispatch) => {
@@ -64,7 +57,6 @@ export const deleteSpotsThunk = (deleteSpot) => async (dispatch) => {
 };
 
 export const createSpotsThunk = (newSpot, previewImage) => async (dispatch) => {
-  // console.log(previewImage.url)
   const response = await csrfFetch(`/api/spots`, {
     method: "POST",
     body: JSON.stringify(newSpot),
@@ -96,7 +88,7 @@ export const createSpotsThunk = (newSpot, previewImage) => async (dispatch) => {
 };
 
 export const editSpotsThunk = (editSpot, spotId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/spots/${spotId.id}`, {
+  const response = await csrfFetch(`/api/spots/${spotId}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(editSpot),
@@ -104,7 +96,7 @@ export const editSpotsThunk = (editSpot, spotId) => async (dispatch) => {
 
   if (response.ok) {
     const editedSpot = response.json();
-    const spot = { ...editedSpot, ...spotId };
+    const spot = { ...editSpot, id: spotId };
     dispatch(editSpots(spot));
     return editedSpot;
   }
@@ -116,7 +108,7 @@ export const getSpotsThunk = () => async (dispatch) => {
   if (response.ok) {
     const allSpots = await response.json();
     dispatch(getSpots(allSpots));
-    return response;
+    return allSpots;
   }
 };
 
@@ -125,17 +117,7 @@ export const getSpotDetailsThunk = (spotId) => async (dispatch) => {
   if (response.ok) {
     const spotDetails = await response.json();
     dispatch(getSpotDetails(spotDetails));
-    return response;
-  }
-};
-
-export const getUserSpotsThunk = () => async (dispatch) => {
-  const response = await csrfFetch(`/api/spots/current`, { method: "GET" });
-
-  if (response.ok) {
-    const spots = await response.json();
-    dispatch(getUserSpots(spots));
-    return spots;
+    return spotDetails;
   }
 };
 
@@ -152,10 +134,8 @@ const spotReducer = (state = initialState, action) => {
     case CREATE:
       const createSpot = action.newSpot;
       return createSpot;
-
     case EDIT:
-      const editedSpot = action.editSpot;
-      newState[editedSpot.id] = editedSpot;
+
       return newState;
     case GET:
       const allSpots = {};

@@ -200,7 +200,6 @@
 
 .reviews {
   margin-top: 0;
-  height: 100%;
   width: 100%;
   border-top: 1px solid grey;
 }
@@ -258,8 +257,9 @@
   cursor: pointer;
   border: none;
   font-size: 15px;
-  margin-left: 1%;
   margin-bottom: 10px;
+  border-radius: 12px;
+  padding-right: 2px;
 }
 
 .seeEdit {
@@ -268,9 +268,10 @@
   cursor: pointer;
   border: none;
   font-size: 16px;
-  margin-left: 59%;
+  margin-left: 50%;
   margin-bottom: 10px;
-  
+  margin-right: 20px;
+  border-radius: 12px;
 }
 
 .noEdit {

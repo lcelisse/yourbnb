@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { useHistory, useParams } from "react-router-dom";
-import * as spotActions from "../../../store/spots";
+
 import { editSpotsThunk } from "../../../store/spots";
+import { getSpotDetailsThunk } from "../../../store/spots";
 import "./EditSpot.css";
 import { useModal } from "../../../context/Modal";
 
@@ -11,9 +11,10 @@ export default function EditForm() {
   const sessionUser = useSelector((state) => state.session.user);
   const spot = useSelector((state) => state.spot.spotDetails);
   const dispatch = useDispatch();
-  const { spotId } = useParams();
-  const history = useHistory();
-  const { closeModal } = useModal;
+
+
+
+  const { closeModal } = useModal();
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -24,25 +25,21 @@ export default function EditForm() {
   const [country, setCountry] = useState("");
   const [errors, setErrors] = useState([]);
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
     setErrors([]);
 
     const newSpot = { name, description, price, address, city, state, country };
-    const { id, Owner, numReviews, avgStarRating, SpotImages } = spot;
+    const { id } = spot;
 
-    const spotDet = { id, Owner, numReviews, avgStarRating, SpotImages };
-
-    return dispatch(editSpotsThunk(newSpot, spotDet))
-      .then(() => {
-        closeModal();
-        history.push(`/spots/${id}`);
-      })
-
-      .catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) setErrors(data.errors);
-      });
+    try {
+      await dispatch(editSpotsThunk(newSpot, id));
+      await dispatch(getSpotDetailsThunk(id));
+      closeModal();
+    } catch (res) {
+      const data = await res.json();
+      if (data && data.errors) setErrors(data.errors);
+    }
   };
   if (!sessionUser) return <Redirect to="/" />;
 

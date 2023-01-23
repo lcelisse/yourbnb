@@ -32,12 +32,6 @@ const validateCreatedSpot = [
   check("country")
     .exists({ checkFalsy: true })
     .withMessage("Country is required"),
-  check("lat")
-    .exists({ checkFalsy: true })
-    .withMessage("Latitude is not valid"),
-  check("lng")
-    .exists({ checkFalsy: true })
-    .withMessage("Longitude is not valid"),
   check("name")
     .exists({ checkFalsy: true })
     .isLength({ max: 49 })
@@ -274,7 +268,7 @@ router.get("/:spotId", async (req, res, next) => {
 //Create Spot
 
 router.post("/", requireAuth, validateCreatedSpot, async (req, res) => {
-  const { address, city, state, country, lat, lng, name, description, price } =
+  const { address, city, state, country, name, description, price } =
     req.body;
 
   const user = await User.findOne({
@@ -289,8 +283,8 @@ router.post("/", requireAuth, validateCreatedSpot, async (req, res) => {
     city: city,
     state: state,
     country: country,
-    lat: lat,
-    lng: lng,
+
+
     name: name,
     description: description,
     price: price,
@@ -336,8 +330,8 @@ router.put(
       city,
       state,
       country,
-      lat,
-      lng,
+
+
       name,
       description,
       price,
@@ -354,8 +348,7 @@ router.put(
       city,
       state,
       country,
-      lat,
-      lng,
+
       name,
       description,
       price,

@@ -54,7 +54,7 @@ export default function CreateReviewForm({ spotId, createNewReview }) {
               e.preventDefault();
               const res = await createNewReview(e, review, stars);
               if (res && res.errors && res.errors.length) {
-                setErrors(errors);
+                setErrors(res.errors);
               }
             }}
           >

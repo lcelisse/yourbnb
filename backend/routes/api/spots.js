@@ -41,7 +41,9 @@ const validateCreatedSpot = [
     .withMessage("Description is required"),
   check("price")
     .exists({ checkFalsy: true })
-    .withMessage("Price per day is required"),
+    .withMessage("Price per day is required")
+    .isInt({ min: 1 })
+    .withMessage("Must be a positive number"),
   handleValidationErrors,
 ];
 

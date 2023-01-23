@@ -109,7 +109,6 @@ router.get("/", async (req, res, next) => {
 
   let errs = {};
 
-
   if (req.query.maxPrice < 0) {
     if (+req.query.maxPrice) {
       errs.maxPrice = "Maximum price must be greater than or equal to 0";
@@ -201,7 +200,7 @@ router.get("/current", requireAuth, async (req, res) => {
     let spotList = {
       ...spot.dataValues,
       avgRating: Number(review[0].avgRating),
-      previewImage: previewImg ? previewImg.url : 'none',
+      previewImage: previewImg ? previewImg.url : "none",
     };
     spotsList.push(spotList);
   }
@@ -268,8 +267,7 @@ router.get("/:spotId", async (req, res, next) => {
 //Create Spot
 
 router.post("/", requireAuth, validateCreatedSpot, async (req, res) => {
-  const { address, city, state, country, name, description, price } =
-    req.body;
+  const { address, city, state, country, name, description, price } = req.body;
 
   const user = await User.findOne({
     where: {
@@ -283,7 +281,6 @@ router.post("/", requireAuth, validateCreatedSpot, async (req, res) => {
     city: city,
     state: state,
     country: country,
-
 
     name: name,
     description: description,
@@ -330,7 +327,6 @@ router.put(
       city,
       state,
       country,
-
 
       name,
       description,

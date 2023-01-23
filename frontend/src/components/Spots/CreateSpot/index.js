@@ -67,7 +67,7 @@ export default function CreateSpotForm() {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Your Name"
+            placeholder="Bnb Name"
             required
           ></input>
           <input

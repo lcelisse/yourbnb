@@ -12,8 +12,6 @@ export default function EditForm() {
   const spot = useSelector((state) => state.spot.spotDetails);
   const dispatch = useDispatch();
 
-
-
   const { closeModal } = useModal();
 
   const [name, setName] = useState("");
@@ -55,7 +53,7 @@ export default function EditForm() {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Your Name"
+            placeholder="Bnb Name"
             required
           ></input>
           <input

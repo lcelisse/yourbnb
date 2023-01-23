@@ -104,7 +104,7 @@ export default function CreateSpotForm() {
           ></input>
           <input
             className="input2"
-            type="text"
+            type="number"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
             placeholder="Price"

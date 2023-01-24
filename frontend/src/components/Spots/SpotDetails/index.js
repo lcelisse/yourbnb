@@ -65,8 +65,8 @@ export default function SpotDetails() {
 
   if (sessionUser) {
     spot.ownerId === sessionUser.id
-      ? (deleteButton = "seeReviewBttn")
-      : (deleteButton = "noReviewBttn");
+      ? (deleteButton = "seeDelBttn")
+      : (deleteButton = "noDelBttn");
   }
 
   if (sessionUser) {

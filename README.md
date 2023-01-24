@@ -11,6 +11,7 @@ Yourbnb is an airbnb code with beginner features. You are able to view, create ,
 ## Spot Details
 
 ![spotDetails]
+
 [spotDetails]: spotDetails.png
 
 ## Database Schema Design

@@ -53,6 +53,8 @@ router.post("/", validateLogin, async (req, res, next) => {
   if (!user) {
     const err = new Error("Invalid credentials");
     err.status = 401;
+    err.title = "Login Failed";
+    err.errors = ["The provided credentials were invalid"];
 
     return next(err);
   }
@@ -60,7 +62,7 @@ router.post("/", validateLogin, async (req, res, next) => {
   const token = await setTokenCookie(res, user);
   user.token = token;
 
-  return res.json({user: user.toSafeObject()});
+  return res.json({ user: user.toSafeObject() });
 });
 
 router.delete("/", (_req, res) => {

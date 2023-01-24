@@ -1,4 +1,6 @@
-# AirBnB Clone
+# Yourbnb Clone
+
+Yourbnb is an airbnb code with beginner features. You are able to view, create , edit, and delete spots and able to view create and delete reviews. there is a demo user in where you log in to test these features out ! try it for yourself at <a href='https://your-bnb.onrender.com/' alt=''>Yourbnb</a>
 
 ## Database Schema Design
 

@@ -27,13 +27,11 @@ function Navigation({ isLoaded }) {
         {isLoaded && (
           <div className="topRight">
             {sessionUser ? (
-              <div>
-                <div className="bnbButton">
-                  <OpenModalMenuItem
-                    itemText="bnb your home"
-                    modalComponent={<CreateSpotForm />}
-                  />
-                </div>
+              <div className="bnbButton">
+                <OpenModalMenuItem
+                  itemText="bnb your home"
+                  modalComponent={<CreateSpotForm />}
+                />
               </div>
             ) : (
               <div>

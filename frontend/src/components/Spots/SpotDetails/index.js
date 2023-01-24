@@ -221,7 +221,7 @@ export default function SpotDetails() {
                     </span>
                   </div>
                 </div>
-                <div className="button"></div>
+
                 <button className="checkout"> Unavailable </button>
 
                 <p className="no-charge">You won't be charged yet</p>

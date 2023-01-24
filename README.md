@@ -4,6 +4,10 @@ Yourbnb is an airbnb code with beginner features. You are able to view, create ,
 
 ## Main Page
 
+![mainPage]
+
+[mainpage]: mainPage.png
+
 ## Spot Details
 
 ## Database Schema Design

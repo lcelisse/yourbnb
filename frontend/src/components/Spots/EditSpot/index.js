@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 import { Redirect } from "react-router-dom";
-
+import * as spotsActions from "../../../store/spots";
 import { editSpotsThunk } from "../../../store/spots";
 import { getSpotDetailsThunk } from "../../../store/spots";
 import "./EditSpot.css";
@@ -22,6 +23,18 @@ export default function EditForm() {
   const [state, setState] = useState("");
   const [country, setCountry] = useState("");
   const [errors, setErrors] = useState([]);
+
+  useEffect(() => {
+    dispatch(spotsActions.getSpotDetailsThunk(spot.id)).then((res) => {
+      setAddress(res.address);
+      setName(res.name);
+      setDescription(res.description);
+      setState(res.state);
+      setCity(res.city);
+      setCountry(res.country);
+      setPrice(res.price);
+    });
+  }, [dispatch, spot.id]);
 
   const submit = async (e) => {
     e.preventDefault();

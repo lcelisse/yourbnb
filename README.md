@@ -23,6 +23,7 @@ Yourbnb is an airbnb code with beginner features. You are able to view, create ,
 ## Main Page
 
 ![mainPage]
+![IMG_3984](https://user-images.githubusercontent.com/105749905/223879761-1734e539-0151-4d0e-ad5f-c4905466f63c.gif)
 
 [mainpage]: mainPage.png
 

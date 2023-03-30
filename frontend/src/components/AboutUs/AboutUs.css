@@ -1,0 +1,19 @@
+.about-us-container{
+    position: fixed;
+     
+}
+
+.img-git{
+    height: 50px;
+    width: 50px;
+    margin-top: 10%;
+    margin-left: 10px;
+    
+}
+
+footer{
+    margin-top: auto;
+   position: absolute;
+    bottom: 0;
+
+}

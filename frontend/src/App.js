@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import AllSpots from "./components/Spots/AllSpots";
 import SpotDetails from "./components/Spots/SpotDetails";
-
+import AboutUs from "./components/AboutUs/AboutUs";
+import PageNotFound from "./components/PageNotFound/PageNotFound";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,6 +25,16 @@ function App() {
           </Route>
           <Route exact path={"/spots/:spotId"}>
             <SpotDetails />
+          </Route>
+          <Route path="/">
+            <AboutUs />
+          </Route>
+          <Route path="/404">
+            <PageNotFound />
+            <Redirect to="/posts" />
+          </Route>
+          <Route path="*">
+            <Redirect to="/404" />
           </Route>
         </Switch>
       </>

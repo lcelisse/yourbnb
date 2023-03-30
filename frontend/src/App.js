@@ -31,7 +31,7 @@ function App() {
           </Route>
           <Route path="/404">
             <PageNotFound />
-            <Redirect to="/posts" />
+            <Redirect to="/spots" />
           </Route>
           <Route path="*">
             <Redirect to="/404" />

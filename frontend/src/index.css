@@ -9,3 +9,7 @@ body {
 ul {
   cursor: pointer;
 }
+
+button {
+  cursor: pointer;
+}

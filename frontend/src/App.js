@@ -31,7 +31,7 @@ function App() {
           </Route>
           <Route path="/404">
             <PageNotFound />
-            <Redirect to="/" />
+            {/* <Redirect to="/" /> */}
           </Route>
           <Route path="*">
             <Redirect to="/404" />

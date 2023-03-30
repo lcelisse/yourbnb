@@ -19,15 +19,15 @@ function App() {
     isLoaded && (
       <>
         <Navigation isLoaded={isLoaded} />
+        <Route path="/">
+          <AboutUs />
+        </Route>
         <Switch>
           <Route exact path={"/spots/:spotId"}>
             <SpotDetails />
           </Route>
           <Route exact path={"/"}>
             <AllSpots />
-          </Route>
-          <Route path="/">
-            <AboutUs />
           </Route>
 
           <Route exact path="/404">

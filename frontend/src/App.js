@@ -20,14 +20,14 @@ function App() {
       <>
         <Navigation isLoaded={isLoaded} />
         <Switch>
-          <Route exact path="/">
-            <AboutUs />
+          <Route exact path={"/spots/:spotId"}>
+            <SpotDetails />
           </Route>
           <Route exact path={"/"}>
             <AllSpots />
           </Route>
-          <Route exact path={"/spots/:spotId"}>
-            <SpotDetails />
+          <Route path="/">
+            <AboutUs />
           </Route>
 
           <Route exact path="/404">

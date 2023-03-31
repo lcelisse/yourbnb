@@ -61,3 +61,10 @@
   border-width: 1px;
   margin-top: 10px;
 }
+
+.errors {
+  display: block;
+    color: red;
+    height: 10px;
+    margin-bottom: 30px;
+}

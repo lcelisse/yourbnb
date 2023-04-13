@@ -13,7 +13,7 @@ module.exports = {
       [
         {
           userId: 3,
-          spotId: 1,
+          spotId: 11,
 
           review:
             "This was the perfect getaway spot for our family. The house was beautifully decorated, and had everything we needed for a comfortable stay.",

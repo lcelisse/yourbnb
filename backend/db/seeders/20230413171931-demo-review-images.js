@@ -8,25 +8,28 @@ if (process.env.NODE_ENV === "production") {
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     options.tableName = "ReviewImages";
-    return queryInterface.bulkInsert(options, [
-      {
-        reviewId: 1,
-        url: "insert soon",
-      },
-      {
-        reviewId: 2,
-        url: "insert soon",
-      },
-      {
-        reviewId: 3,
-        url: "insert soon",
-      },
-      {
-        reviewId: 4,
-        url: "insert soon",
-      },
-    ],
-    {});
+    return queryInterface.bulkInsert(
+      options,
+      [
+        {
+          reviewId: 1,
+          url: "insert soon",
+        },
+        {
+          reviewId: 2,
+          url: "insert soon",
+        },
+        {
+          reviewId: 3,
+          url: "insert soon",
+        },
+        {
+          reviewId: 4,
+          url: "insert soon",
+        },
+      ],
+      {}
+    );
   },
 
   down: async (queryInterface, Sequelize) => {

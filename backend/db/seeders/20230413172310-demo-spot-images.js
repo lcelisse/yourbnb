@@ -13,17 +13,17 @@ module.exports = {
       [
         {
           spotId: 1,
-          url: "https://a0.muscache.com/im/pictures/287ee9eb-73f1-437f-b861-8decac866c2e.jpg?im_w=1200",
+          url: "https://cdn.inprnt.com/thumbs/19/3b/193b9d264e6ccd65cdb0543604eaaf2d.jpg",
           preview: true,
         },
         {
           spotId: 1,
-          url: "https://a0.muscache.com/im/pictures/miso/Hosting-13761529/original/1f302795-91f7-412b-8710-864dd74f7a4c.jpeg?im_w=720",
+          url: "https://i.redd.it/wxsok42ou2g61.jpg",
           preview: true,
         },
         {
           spotId: 1,
-          url: "https://a0.muscache.com/im/pictures/miso/Hosting-13761529/original/0dab7b3c-f159-4dbd-8977-3f006600b633.jpeg?im_w=720",
+          url: "https://i.pinimg.com/originals/f7/b9/ea/f7b9ea239630e0f14cc17e51dbeca0ac.png",
           preview: true,
         },
         {

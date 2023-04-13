@@ -26,7 +26,7 @@ function LoginFormModal() {
     e.preventDefault();
     dispatch(
       sessionActions.login({
-        credential: "demo@user.io",
+        credential: "Louise@aa.io",
         password: "password",
       })
     )

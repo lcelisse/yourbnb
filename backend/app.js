@@ -10,6 +10,8 @@ const { environment } = require("./config");
 const isProduction = environment === "production";
 
 const app = express();
+const routes = require("./routes");
+const { ValidationError } = require("sequelize");
 
 app.use(morgan("dev"));
 
@@ -40,7 +42,9 @@ app.use(
   })
 );
 
-const routes = require("./routes");
+// backend/app.js
+
+// ...
 
 app.use(routes); // Connect all the routes
 
@@ -51,8 +55,6 @@ app.use((_req, _res, next) => {
   err.status = 404;
   next(err);
 });
-
-const { ValidationError } = require("sequelize");
 
 app.use((err, _req, _res, next) => {
   // check if error is a Sequelize error:
@@ -67,13 +69,12 @@ app.use((err, _req, res, _next) => {
   res.status(err.status || 500);
   console.error(err);
   res.json({
-    title: err.title || "Server Error",
+    title: isProduction ? null : err.title || "Server Error",
     message: err.message,
     errors: err.errors,
+    statusCode: res.statusCode,
     stack: isProduction ? null : err.stack,
   });
 });
-
-
 
 module.exports = app;

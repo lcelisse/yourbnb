@@ -33,3 +33,9 @@
 .bookings-hEAD{
     margin-left: 42%;
 }
+
+.delete-button-booking > button{
+    height: 20px;
+    border: none;
+    background-color: none;
+}

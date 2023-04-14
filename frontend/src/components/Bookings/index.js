@@ -1,22 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { getUserBookingsThunk, deleteBookingThunk } from "../../store/bookings";
+import {
+  deleteBooking,
+  deleteBookingThunk,
+  getUserBookingsThunk,
+  userBookings,
+} from "../../store/bookings";
 import "./Bookings.css";
 import { dateForm } from "../Spots/SpotDetails";
 import none from "../Spots/SpotDetails/img/no.jpg";
-
-import EditBookingsForm from "../EditBookings/EditBookings";
-import SpotDetails from "../Spots/SpotDetails";
+import AllSpots from "../Spots/AllSpots";
 
 export default function Bookings() {
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector((state) => state.session.user);
-  const bookings = useSelector((state) => state.booking?.Bookings);
+  const bookings = useSelector((state) => state.booking.Bookings);
+
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasClicked, setHasClicked] = useState(false);
 
+  //change backend route to include user information
   useEffect(() => {
     if (user) {
       dispatch(getUserBookingsThunk(user.id)).then(() => {
@@ -34,16 +39,27 @@ export default function Bookings() {
   }
 
   const clickDelete = (booking) => {
-    if (window.confirm("Are you sure you want to delete this booking?")) {
-      dispatch(deleteBookingThunk(booking.id)).then(() => {
-        setHasClicked(!hasClicked);
-      });
+    const start = new Date(booking.startDate);
+    const now = Date.now();
+
+    if (start < now) {
+      window.alert("Bookings that have been started can't be deleted");
+    } else {
+      if (window.confirm("Are you sure you want to delete this booking?")) {
+        dispatch(deleteBookingThunk(booking.id)).then(() => {
+          setHasClicked(!hasClicked);
+        });
+      }
     }
+  };
+
+  const clickHandler = (spotId) => {
+    history.push(`/spots/${spotId}`);
   };
 
   return (
     <div className="my-bookings">
-      <h1 className="bookings-hEAD"> Your Bookings</h1>
+      <h1>Your Bookings</h1>
       <div className="bookings-body">
         {!bookings.length && <div>You have no bookings.</div>}
         {bookings.map((booking) => {
@@ -54,30 +70,49 @@ export default function Bookings() {
                 {dateForm(booking.endDate)}
               </strong>
 
-              <div className="previewImg">
-                <img
-                  className="spot-img"
-                  src={
-                    booking.Spot.previewImage ? booking.Spot.previewImage : none
-                  }
-                  alt={`${booking.Spot.name}`}
-                />
-              </div>
-              <div className="edit-delete-buttons">
-                <EditBookingsForm
-                  booking={booking}
-                  hasClicked={hasClicked}
-                  setHasClicked={setHasClicked}
-                />
-                <button
-                  className="button"
-                  onClick={() => {
-                    clickDelete(booking);
-                  }}
+              <div
+                style={({ alignContent: "center" }, { marginTop: "8px" })}
+                className="spot-container"
+              >
+                <div
+                  className="previewImg"
+                  onClick={() => clickHandler(booking.id)}
+                  key={booking.id}
                 >
-                  Delete
-                </button>
+                  <img
+                    className="spot-img"
+                    src={
+                      booking.Spot?.previewImage
+                        ? booking.Spot?.previewImage
+                        : none
+                    }
+                    alt="house"
+                  />
+                </div>
+                <p className="location">
+                  {booking.Spot?.city}, {booking.Spot?.state}
+                  <span className="stars">
+                    ★
+                    {Number(booking.Spot?.avgRating)
+                      ? Number(booking.Spot?.avgRating).toFixed(1)
+                      : "0"}
+                  </span>
+                </p>
+
+                <p className="spot-name">{booking.Spot?.name}</p>
+                <p className="price">
+                  <span className="spot-price">${booking.Spot?.price}</span>{" "}
+                  night
+                </p>
               </div>
+              <button
+                className="delete-button-booking"
+                onClick={() => {
+                  clickDelete(booking);
+                }}
+              >
+                Delete
+              </button>
             </div>
           );
         })}

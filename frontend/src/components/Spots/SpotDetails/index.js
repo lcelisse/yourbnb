@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { getSpotDetailsThunk, getSpotsThunk } from "../../../store/spots";
 import { getSpotReviewsThunk } from "../../../store/reviews";
-import { createBookingThunk } from "../../../store/bookings";
+import { createBooking, createBookingThunk } from "../../../store/bookings";
 
 import "./SpotDetails.css";
 import SpotReviews from "../../Reviews/SpotReviews";
@@ -39,10 +39,11 @@ export default function SpotDetails() {
   const [submitted, setSubmitted] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
+
   const { closeModal } = useModal();
 
   const spot = useSelector((state) => state.spot.spotDetails);
-
+  console.log(spot);
   const [guests, setGuests] = useState("");
   const [range, setRange] = useState([
     {
@@ -77,21 +78,26 @@ export default function SpotDetails() {
 
   const handleSubmit = (booking, spotId) => {
     setErrors([]);
-    dispatch(createBookingThunk(booking, spotId))
-      .then((data) => {
-        alert(
-          `Successfully created a booking for ${dateForm(
-            data.startDate
-          )} to ${dateForm(data.endDate)} for ${guests} guests.`
-        );
-      })
-      .then(() => {
-        history.push(`/bookings`);
-      })
-      .catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) setErrors(data.errors);
-      });
+
+    if (spot?.ownerId === sessionUser?.id) {
+      window.alert("Cannot reserve since you are the owner.");
+    } else {
+      dispatch(createBookingThunk(booking, spotId))
+        .then((data) => {
+          alert(
+            `Successfully created a booking for ${dateForm(
+              data.startDate
+            )} to ${dateForm(data.endDate)} for ${guests} guests.` //add guests to booking model later
+          );
+        })
+        .then(() => {
+          history.push(`/bookings`);
+        })
+        .catch(async (res) => {
+          const data = await res.json();
+          if (data && data.errors) setErrors(data.errors);
+        });
+    }
   };
 
   if (!spot) return null;
@@ -275,7 +281,7 @@ export default function SpotDetails() {
                 </div>
 
                 <div className="bookingsInputs">
-                  <ul>
+                  <ul className="errors">
                     {errors.map((error, idx) => (
                       <li key={idx} className="error">
                         {error}

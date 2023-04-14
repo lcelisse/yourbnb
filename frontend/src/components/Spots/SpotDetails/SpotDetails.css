@@ -355,3 +355,7 @@
 .bookingsInputs {
   margin-left: 21%;
 }
+
+.error{
+  color: #fe375b;
+}

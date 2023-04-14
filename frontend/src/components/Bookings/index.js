@@ -53,9 +53,9 @@ export default function Bookings() {
     }
   };
 
-  const clickHandler = (spotId) => {
-    history.push(`/spots/${spotId}`);
-  };
+  // const clickHandler = (spotId) => {
+  //   history.push(`/spots/${spotId}`);
+  // };
 
   return (
     <div className="my-bookings">
@@ -63,6 +63,7 @@ export default function Bookings() {
       <div className="bookings-body">
         {!bookings.length && <div>You have no bookings.</div>}
         {bookings.map((booking) => {
+          console.log(booking);
           return (
             <div key={booking.id} className="booking">
               <strong>
@@ -73,7 +74,7 @@ export default function Bookings() {
               <div style={({ alignContent: "center" }, { marginTop: "8px" })}>
                 <div
                   className="div-for-booking"
-                  onClick={() => clickHandler(booking.id)}
+                  // onClick={() => clickHandler(booking.id)}
                   key={booking.id}
                 >
                   <img

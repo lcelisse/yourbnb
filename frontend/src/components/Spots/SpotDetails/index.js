@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { getSpotDetailsThunk, getSpotsThunk } from "../../../store/spots";
 import { getSpotReviewsThunk } from "../../../store/reviews";
+import { createBookingThunk } from "../../../store/bookings";
 
 import "./SpotDetails.css";
 import SpotReviews from "../../Reviews/SpotReviews";
@@ -15,6 +16,19 @@ import { useModal } from "../../../context/Modal";
 import { deleteSpotsThunk } from "../../../store/spots";
 import { createReviewsThunk } from "../../../store/reviews";
 import EditForm from "../EditSpot";
+import Calender from "./Calender";
+
+export const dateForm = (date) => {
+  date = new Date(date);
+  let options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+
+  return date.toLocalesString("en-US", options);
+};
 
 export default function SpotDetails() {
   const dispatch = useDispatch();
@@ -27,6 +41,17 @@ export default function SpotDetails() {
 
   const spot = useSelector((state) => state.spot.spotDetails);
 
+  const [guests, setGuests] = useState("");
+  const [range, setRange] = useState([
+    {
+      startDate: null,
+      endDate: null,
+      key: "selection",
+    },
+  ]);
+  const [disabled, isDisabled] = useState(true);
+  const [errors, setErrors] = useState([]);
+
   useEffect(() => {
     dispatch(getSpotDetailsThunk(spotId)).then(() => setIsLoaded(true));
   }, [dispatch, spotId]);
@@ -38,6 +63,34 @@ export default function SpotDetails() {
   useEffect(() => {
     dispatch(getSpotsThunk());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (range[0].startDate && range[0].endDate && guests) {
+      isDisabled(false);
+    }
+  }, [range, guests]);
+
+  let rating = spot?.avgStarRating;
+  rating = parseFloat(rating).toFixed(1);
+
+  const handleSubmit = (booking, spotId) => {
+    setErrors([]);
+    dispatch(createBookingThunk(booking, spotId))
+      .then((data) => {
+        alert(
+          `Successfully created a booking for ${dateForm(
+            data.startDate
+          )} to ${dateForm(data.endDate)} for ${guests} guests.`
+        );
+      })
+      .then(() => {
+        history.push(`/${sessionUser.username}/trips`);
+      })
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) setErrors(data.errors);
+      });
+  };
 
   if (!spot) return null;
   if (!isLoaded) return null;
@@ -112,11 +165,8 @@ export default function SpotDetails() {
             </div>
 
             <div className="spotInfo">
-              ★
-              {Number(spot.avgStarRating)
-                ? Number(spot.avgStarRating).toFixed(1)
-                : "No Reviews Yet"}{" "}
-              · {spot.numReviews} Reviews · {spot.city} , {spot.state} ,
+              ★{Number(rating) ? Number(rating).toFixed(1) : "No Reviews Yet"} ·{" "}
+              {spot.numReviews} Reviews · {spot.city} , {spot.state} ,
               {spot.country}
               <div className={editButton}>
                 <OpenModalMenuItem
@@ -222,19 +272,36 @@ export default function SpotDetails() {
                   </div>
                 </div>
 
-                <button className="checkout"> Unavailable </button>
-
-                <p className="no-charge">You won't be charged yet</p>
-                <div className="fees">
-                  <div className="night-fees">
-                    ${spot.price} x 5 nights <span>${spot.price * 5}</span>
+                <div className="bookingsInputs">
+                  <ul>
+                    {errors.map((error, idx) => (
+                      <li key={idx} className="error">
+                        {error}
+                      </li>
+                    ))}
+                  </ul>
+                  <Calender range={range} setRange={setRange} />
+                  <div className="inputBoxGuest">
+                    <input
+                      type={"number"}
+                      value={guests}
+                      placeholder="Add Guests"
+                      min={1}
+                      max={20}
+                      className="inputBox"
+                      // add maxGuests tag to spot model later
+                      onChange={(e) => setGuests(e.target.value)}
+                    />
                   </div>
-                  <div className="night-fees">
-                    Cleaning Fee <span>${(spot.price * 0.5).toFixed(0)}</span>
-                  </div>
-                  <div className="night-fees">
-                    Service Fee <span>${(spot.price * 0.15).toFixed(0)}</span>
-                  </div>
+                </div>
+                <div className="bookingsButton">
+                  <button
+                    className="bookingsButton"
+                    disabled={disabled}
+                    onClick={() => handleSubmit(range[0], spot.id)}
+                  >
+                    Reserve
+                  </button>
                 </div>
               </div>
             </div>

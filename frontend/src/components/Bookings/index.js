@@ -70,17 +70,14 @@ export default function Bookings() {
                 {dateForm(booking.endDate)}
               </strong>
 
-              <div
-                style={({ alignContent: "center" }, { marginTop: "8px" })}
-                className="spot-container"
-              >
+              <div style={({ alignContent: "center" }, { marginTop: "8px" })}>
                 <div
-                  className="previewImg"
+                  className="div-for-booking"
                   onClick={() => clickHandler(booking.id)}
                   key={booking.id}
                 >
                   <img
-                    className="spot-img"
+                    className="bookingsImg"
                     src={
                       booking.Spot?.previewImage
                         ? booking.Spot?.previewImage
@@ -89,7 +86,7 @@ export default function Bookings() {
                     alt="house"
                   />
                 </div>
-                <p className="location">
+                <p className="loc">
                   {booking.Spot?.city}, {booking.Spot?.state}
                   <span className="stars">
                     ★

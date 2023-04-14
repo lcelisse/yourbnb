@@ -12,5 +12,7 @@ ul {
 
 button {
   cursor: pointer;
+  border: solid 0.1px rgb(255, 56, 92);
+  border-radius: 8px; 
 }
 

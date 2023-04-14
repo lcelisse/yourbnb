@@ -20,14 +20,11 @@
 }
 
 .booking {
-    display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: fit-content;
-    height: fit-content;
+
     padding: 0 20px;
     margin: 10px;
+    
 }
 
 .bookings-hEAD{
@@ -38,4 +35,24 @@
     height: 20px;
     border: none;
     background-color: none;
+    border-radius: 8px;
+}
+
+.my-bookings {
+    text-align: center;
+    
+}
+
+.bookingsImg {
+    height: 200px;
+    border-radius: 10px;
+}
+
+.loc {
+    font-family: BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 20px;
+    width: 50%;
+    margin-left: 25%;
 }

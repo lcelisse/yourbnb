@@ -3,6 +3,7 @@ const router = express.Router();
 const { requireAuth } = require("../../utils/auth");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
+const { Op } = require("sequelize");
 const {
   Spot,
   Review,
@@ -489,74 +490,85 @@ router.get("/:spotId/bookings", requireAuth, async (req, res, next) => {
 });
 
 //create a booking from a spot based on spot id
-router.post("/:spotId/bookings", requireAuth, async (req, res, next) => {
-  const { startDate, endDate } = req.body;
-  const spot = await Spot.findByPk(req.params.spotId);
-  const owner = await Spot.findByPk(req.params.spotId, {
-    attributes: ["ownerId"],
-  });
-  if (!spot) {
-    const err = new Error("Spot couldn't be found");
-    err.status = 404;
-    return next(err);
-  }
-  if (req.user.id !== owner.toJSON().ownerId) {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
+router.post(
+  "/:spotId/bookings",
+  requireAuth,
+  // notOwner
+  async (req, res, next) => {
+    const { startDate, endDate } = req.body;
+    let newStartTime = new Date(startDate);
+    newStartTime = new Date(newStartTime.toDateString()).getTime(); // get rid of hr/min/sec later
+    let newEndTime = new Date(endDate);
+    newEndTime = new Date(newEndTime.toDateString()).getTime();
+    let { spotId } = req.params;
+    if (!isNaN(spotId)) spotId = Number(spotId);
 
-    //if the endate is before the starting date
-    if (end <= start) {
-      return res
-        .json({
-          message: "endDate cannot be on or before startDate",
-        })
-        .status(400);
+    if (newEndTime <= newStartTime) {
+      const err = new Error("Validation error");
+      err.title = "Validation error";
+      err.errors = ["End date cannot be on or before start date"];
+      err.status = 400;
+      return next(err);
     }
 
-    //if the dates are already booked
-    const bookings = await Booking.findAll({
+    if (newStartTime < new Date().getTime()) {
+      const err = new Error("Validation error");
+      err.title = "Validation error";
+      err.errors = ["Start date cannot be in the past"];
+      err.status = 400;
+      return next(err);
+    }
+    // this conditional should never run because of the validation above
+    if (newEndTime < new Date().getTime()) {
+      const err = new Error("Validation error");
+      err.title = "Validation error";
+      err.errors = ["End date cannot be in the past"];
+      err.status = 400;
+      return next(err);
+    }
+
+    const booked = await Booking.findOne({
       where: {
-        spotId: req.params.spotId,
+        spotId,
+        [Op.or]: [
+          { startDate: { [Op.between]: [startDate, endDate] } },
+
+          { endDate: { [Op.between]: [startDate, endDate] } },
+
+          {
+            [Op.and]: [
+              { startDate: { [Op.gte]: startDate } },
+              { endDate: { [Op.lte]: endDate } },
+            ],
+          },
+
+          {
+            [Op.and]: [
+              { startDate: { [Op.lte]: startDate } },
+              { endDate: { [Op.gte]: endDate } },
+            ],
+          },
+        ],
       },
-      raw: true,
     });
 
-    for (let booking of bookings) {
-      let { startDate, endDate } = booking;
-      startDate = new Date(startDate);
-      endDate = new Date(endDate);
-
-      if (start >= startDate && start <= endDate) {
-        const err = new Error(
-          "Sorry, this spot is already booked for the specified dates"
-        );
-        err.status = 403;
-        err.errors = ["Start date conflicts with an existing booking"];
-        return next(err);
-      }
-      if (end >= startDate && end <= endDate) {
-        const err = new Error(
-          "Sorry, this spot is already booked for the specified dates"
-        );
-        err.status = 403;
-        err.errors = ["End date conflicts with an existing booking"];
-        return next(err);
-      }
+    if (booked) {
+      res.status(403);
+      const err = new Error("Validation error");
+      err.title = "Validation error";
+      err.errors = ["this spot is already booked for the specified dates"];
+      err.status = 403;
+      return next(err);
     }
 
-    const newBooking = await Booking.create({
-      spotId: req.params.spotId,
+    const booking = await Booking.create({
+      spotId,
       userId: req.user.id,
-      startDate: startDate,
-      endDate: endDate,
+      startDate,
+      endDate,
     });
-    res.json(newBooking);
-  } else {
-    const err = new Error("Forbidden");
-    err.title = "Cannot book the spot since you are the owner";
-    err.status = 403;
-    return next(err);
+    return res.json(booking);
   }
-});
+);
 
 module.exports = router;

@@ -8,48 +8,28 @@ const { Spot, SpotImage, Booking, Sequelize } = require("../../db/models");
 //Get all of the Current User's Bookings
 
 router.get("/current", requireAuth, async (req, res) => {
-  const bookings = await Booking.findAll({
-    where: {
-      userId: req.user.id,
-    },
-    raw: true,
-  });
-
-  //fix ordering
-  for (let booking of bookings) {
-    const spot = await Spot.findOne({
-      where: {
-        ownerId: req.user.id,
-      },
-      attributes: [
-        "id",
-        "ownerId",
-        "address",
-        "city",
-        "state",
-        "country",
-
-        "name",
-        "price",
-      ],
-      include: [
-        {
-          model: SpotImage,
-          attributes: ["url"],
-        },
-      ],
-      raw: true,
+  const userId = req.user.id;
+  const bookings = await Booking.findAll({ where: { userId } });
+  const Bookings = [];
+  for (let i = 0; i < bookings.length; i++) {
+    let booking = bookings[i];
+    let spot = await booking.getSpot({
+      attributes: { exclude: ["createdAt", "updatedAt"] },
     });
-    if (booking.length === 0) {
-      return res.json({
-        message: "No bookings for current spot",
+    if (spot) {
+      spot = spot.toJSON();
+      let previewImage = await SpotImage.findOne({
+        where: { preview: true, spotId: spot.id },
       });
+      spot.previewImage = previewImage ? previewImage.toJSON().url : null;
+      booking = booking.toJSON();
+      booking.Spot = spot;
+      Bookings.push(booking);
+    } else {
+      Bookings.push(booking);
     }
-
-    booking.Spot = spot;
   }
-
-  res.json({ Bookings: bookings });
+  return res.json({ Bookings });
 });
 
 //edit a booking

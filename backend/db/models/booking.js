@@ -25,8 +25,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         onDelete: "CASCADE",
       },
-      startDate: { type: DataTypes.DATEONLY, allowNull: false },
-      endDate: { type: DataTypes.DATEONLY, allowNull: false },
+      startDate: { type: DataTypes.DATE, allowNull: false },
+      endDate: { type: DataTypes.DATE, allowNull: false },
     },
     {
       sequelize,

@@ -7,6 +7,7 @@ import AllSpots from "./components/Spots/AllSpots";
 import SpotDetails from "./components/Spots/SpotDetails";
 import AboutUs from "./components/AboutUs/AboutUs";
 import PageNotFound from "./components/PageNotFound/PageNotFound";
+import Bookings from "./components/Bookings";
 
 function App() {
   const dispatch = useDispatch();
@@ -29,7 +30,9 @@ function App() {
           <Route exact path={"/"}>
             <AllSpots />
           </Route>
-
+          <Route exact path="/bookings">
+            <Bookings />
+          </Route>
           <Route exact path="/404">
             <PageNotFound />
           </Route>

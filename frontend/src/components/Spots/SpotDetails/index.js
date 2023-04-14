@@ -25,9 +25,11 @@ export const dateForm = (date) => {
     year: "numeric",
     month: "long",
     day: "numeric",
+    //   hour: "numeric",
+    //   minute: "numeric",
+    //   timeZoneName: "short",
   };
-
-  return date.toLocalesString("en-US", options);
+  return date.toLocaleString("en-US", options);
 };
 
 export default function SpotDetails() {
@@ -84,7 +86,7 @@ export default function SpotDetails() {
         );
       })
       .then(() => {
-        history.push(`/${sessionUser.username}/trips`);
+        history.push(`/bookings`);
       })
       .catch(async (res) => {
         const data = await res.json();

@@ -42,6 +42,11 @@ function ProfileButton({ user }) {
     closeMenu();
   };
 
+  const bookings = (e) => {
+    e.preventDefault();
+    history.push(`/bookings`);
+  };
+
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
@@ -56,6 +61,9 @@ function ProfileButton({ user }) {
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <div className="loggedIn">
+            <button className="userLogout-button" onClick={bookings}>
+              Bookings
+            </button>
             <button onClick={logout} className="userLogout-button">
               Log Out
             </button>

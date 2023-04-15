@@ -55,7 +55,7 @@ const requireAuth = function (req, _res, next) {
 
   const err = new Error("You must  be logged in ");
   err.title = "You must  be logged in ";
-  err.errors = ["You must  be logged in in."];
+  err.errors = ["You must  be logged in."];
   err.status = 401;
   return next(err);
 };

@@ -1,0 +1,33 @@
+.my-bookings-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 40%;
+    height: 100%;
+    padding: 0 20px;
+    margin: 0;
+}
+
+.button {
+    cursor: pointer;
+
+  
+
+    border: solid 0.1px rgb(255, 56, 92);
+    border-radius: 8px; 
+ 
+    height: 20px;
+    margin-right: 10px;
+
+  }
+
+  .hideEdit{
+    visibility: hidden;
+    height: 0;
+  }
+
+.showEdit {
+   display: flex;
+   justify-content: center;
+}

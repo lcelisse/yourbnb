@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from "react";
+import React, { useRef, useState, useContext, useEffect } from "react";
 import ReactDOM from "react-dom";
 import "./Modal.css";
 
@@ -9,7 +9,7 @@ export function ModalProvider({ children }) {
   const [modalContent, setModalContent] = useState(null);
   // callback function that will be called when modal is closing
   const [onModalClose, setOnModalClose] = useState(null);
-
+  const [value, setValue] = useState();
   const closeModal = () => {
     setModalContent(null); // clear the modal contents
     // If callback function is truthy, call the callback function and reset it
@@ -20,12 +20,18 @@ export function ModalProvider({ children }) {
     }
   };
 
+  useEffect(() => {
+    setValue(modalRef.current);
+  }, []);
+
   const contextValue = {
     modalRef, // reference to modal div
     modalContent, // React component to render inside modal
     setModalContent, // function to set the React component to render inside modal
     setOnModalClose, // function to set the callback function called when modal is closing
     closeModal, // function to close the modal
+    value,
+    setValue,
   };
 
   return (
@@ -38,7 +44,7 @@ export function ModalProvider({ children }) {
   );
 }
 
-export function Modal() {
+export function Modal({ onClose, children }) {
   const { modalRef, modalContent, closeModal } = useContext(ModalContext);
   // If there is no div referenced by the modalRef or modalContent is not a
   // truthy value, render nothing:
@@ -47,6 +53,8 @@ export function Modal() {
   // Render the following component to the div referenced by the modalRef
   return ReactDOM.createPortal(
     <div id="modal">
+      <div id="modal-background" onClick={onClose} />
+      <div id="modal-content">{children}</div>
       <div id="modal-background" onClick={closeModal} />
       <div id="modal-content">{modalContent}</div>
     </div>,

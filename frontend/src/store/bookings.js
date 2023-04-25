@@ -60,6 +60,16 @@ export const deleteBookingThunk = (bookingId) => async (dispatch) => {
   return response;
 };
 
+export const editBookingThunk = (bookingId, booking) => async (dispatch) => {
+  const response = await csrfFetch(`/api/bookings/${bookingId}`, {
+    method: "PUT",
+    body: JSON.stringify(booking),
+  });
+  const data = await response.json();
+
+  return data;
+};
+
 export default function bookingReducer(state = {}, action) {
   switch (action.type) {
     case GET_SPOT_BOOKINGS:

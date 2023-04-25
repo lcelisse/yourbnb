@@ -11,6 +11,7 @@ import "./Bookings.css";
 import { dateForm } from "../Spots/SpotDetails";
 import none from "../Spots/SpotDetails/img/no.jpg";
 import AllSpots from "../Spots/AllSpots";
+import EditBookings from "../EditBooking";
 
 export default function Bookings() {
   const dispatch = useDispatch();
@@ -102,14 +103,22 @@ export default function Bookings() {
                   night
                 </p>
               </div>
-              <button
-                className="delete-button-booking"
-                onClick={() => {
-                  clickDelete(booking);
-                }}
-              >
-                Delete
-              </button>
+              <div className="editanddelete">
+                <EditBookings
+                  booking={booking}
+                  hasClicked={hasClicked}
+                  setHasClicked={setHasClicked}
+                  className="delete-button-booking"
+                />
+                <button
+                  className="delete-button-booking"
+                  onClick={() => {
+                    clickDelete(booking);
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           );
         })}

@@ -63,8 +63,11 @@
 }
 
 .errors {
-  display: block;
-    color: red;
-    height: 10px;
-    margin-bottom: 30px;
+
+  color: red;
+
+  justify-content: center;
+
+  margin: 5px;
+
 }

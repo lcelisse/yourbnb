@@ -14,5 +14,12 @@ button {
   cursor: pointer;
   border: solid 0.1px rgb(255, 56, 92);
   border-radius: 8px; 
+  
 }
 
+li {
+  list-style-type: circle;
+  margin-right: 10px;
+  padding-right: 10px;
+  
+}

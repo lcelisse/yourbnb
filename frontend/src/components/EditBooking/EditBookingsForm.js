@@ -57,12 +57,12 @@ export default function EditBookingsForm({
       )
     ) {
       dispatch(editBookingThunk(booking.id, range[0]))
-        .then(() => {
-          refreshPage();
-        })
         .catch(async (res) => {
           const data = await res.json();
           if (data && data.errors) setErrors(data.errors);
+        })
+        .then(() => {
+          refreshPage();
         });
     }
   };
@@ -71,7 +71,7 @@ export default function EditBookingsForm({
     <form onSubmit={handleSubmit} className="my-bookings-form">
       <div>Change Booking</div>
       <ul>
-        {errors.map((error, idx) => (
+        {errors?.map((error, idx) => (
           <li key={idx} className="errors">
             {error}
           </li>

@@ -65,9 +65,10 @@ export const editBookingThunk = (bookingId, booking) => async (dispatch) => {
     method: "PUT",
     body: JSON.stringify(booking),
   });
-  const data = await response.json();
-
-  return data;
+  if (response.ok) {
+    const data = await response.json();
+    return data;
+  }
 };
 
 export default function bookingReducer(state = {}, action) {

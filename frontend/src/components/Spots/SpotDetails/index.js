@@ -43,7 +43,7 @@ export default function SpotDetails() {
   const { closeModal } = useModal();
 
   const spot = useSelector((state) => state.spot.spotDetails);
-  console.log(spot);
+
   const [guests, setGuests] = useState("");
   const [range, setRange] = useState([
     {

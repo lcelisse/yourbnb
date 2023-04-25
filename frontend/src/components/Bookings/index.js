@@ -63,7 +63,6 @@ export default function Bookings() {
       <div className="bookings-body">
         {!bookings.length && <div>You have no bookings.</div>}
         {bookings.map((booking) => {
-          console.log(booking);
           return (
             <div key={booking.id} className="booking">
               <strong>

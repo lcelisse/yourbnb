@@ -53,7 +53,6 @@ function ProfileButton({ user }) {
     <div className="container">
       <div className="profileButton">
         <button className="profile" onClick={openMenu}>
-          <i className="fa-solid fa-bars"></i>
           <i className="fa-solid fa-user"></i>
         </button>
       </div>

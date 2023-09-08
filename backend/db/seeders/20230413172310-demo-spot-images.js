@@ -289,7 +289,7 @@ module.exports = {
         },
         {
           spotId: 12,
-          url: "https://a0.muscache.com/im/pictures/f94a95de-dc38-4b12-a3d1-8026f1068a38.jpg?im_w=1200",
+          url: "https://foyr.com/learn/wp-content/uploads/2022/05/master-bedroom-in-a-house-1024x795.jpg",
           preview: true,
         },
         {
@@ -299,12 +299,12 @@ module.exports = {
         },
         {
           spotId: 12,
-          url: "https://a0.muscache.com/im/pictures/dbd17bea-f502-49cd-8c85-55e04f25f7a5.jpg",
+          url: "https://foyr.com/learn/wp-content/uploads/2022/05/foyer-or-entry-hall-types-of-rooms-in-a-house-1024x819.jpg",
           preview: true,
         },
         {
           spotId: 12,
-          url: "https://a0.muscache.com/im/pictures/af8ea2b6-d55e-4c95-817f-640b593c05f2.jpg",
+          url: "https://foyr.com/learn/wp-content/uploads/2022/05/family-room-in-a-house-1024x683.jpg",
           preview: true,
         },
         {
@@ -364,27 +364,27 @@ module.exports = {
         },
         {
           spotId: 15,
-          url: "https://a0.muscache.com/im/pictures/5fa95bf1-6605-477c-87b3-3a148aef7b3b.jpg?im_w=1200",
+          url: "https://photos.zillowstatic.com/fp/202af3fc899579bde8c6494bd48e8593-p_e.jpg",
           preview: true,
         },
         {
           spotId: 15,
-          url: "https://a0.muscache.com/im/pictures/miso/Hosting-46708849/original/6f4b24d1-f80c-41fa-9db1-7fec894b8059.jpeg?im_w=720",
+          url: "https://i.ytimg.com/vi/zumJJUL_ruM/maxresdefault.jpg",
           preview: true,
         },
         {
           spotId: 15,
-          url: "https://a0.muscache.com/im/pictures/878b1fe6-0e98-4aff-bee4-8fabc2978804.jpg?im_w=720",
+          url: "https://www.home-designing.com/wp-content/uploads/2019/02/courtyard-design-2.jpg",
           preview: true,
         },
         {
           spotId: 15,
-          url: "https://a0.muscache.com/im/pictures/f3ddcb2d-3ae0-436c-b0d1-2f8b95fb2dee.jpg?im_w=720",
+          url: "https://www.decorilla.com/online-decorating/wp-content/uploads/2020/07/Shabby-chic-house-bedroom-design-inside.jpg",
           preview: true,
         },
         {
           spotId: 15,
-          url: "https://a0.muscache.com/im/pictures/673deb03-f7b2-4838-956c-3ea44fceb0d2.jpg?im_w=720",
+          url: "https://www.homestratosphere.com/wp-content/uploads/2017/06/living-room-with-awesome-ceiling-nov2.jpg",
           preview: true,
         },
       ],
